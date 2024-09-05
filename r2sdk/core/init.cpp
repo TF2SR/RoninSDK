@@ -46,6 +46,7 @@
 #include "squirrel/server/sqapi.h"
 #include "squirrel/ui/sqapi.h"
 #include "squirrel/squirrelmanager.h"
+#include "filesystem/diskvmtfixes.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -267,6 +268,7 @@ bool AllocateModule(string strModule)
 	SCAN_MODULE(strModule, client.dll, g_pClientDll);
 	SCAN_MODULE(strModule, server.dll, g_pServerDll);
 	SCAN_MODULE(strModule, filesystem_stdio.dll, g_pFSStdioDll);
+	SCAN_MODULE(strModule, materialsystem_dx11.dll, g_pMatSys_DX11Dll);
 
 	//DevMsg(eDLL_T::NONE, "Skipping module: %s\n", strModule.c_str());
 
@@ -373,4 +375,7 @@ void DetourRegister() // Register detour classes to be searched and hooked.
 	REGISTER(client.dll, VSqapi_CLIENT);
 	REGISTER(server.dll, VSqapi_SERVER);
 	REGISTER(client.dll, VSqapi_UI);
+
+	// disk vmt fix
+	REGISTER(materialsystem_dx11.dll, VDiskVMTFixes);
 }

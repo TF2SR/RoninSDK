@@ -117,6 +117,7 @@ public:
 
 	bool CheckOpCodes(const vector<uint8_t> vOpcodeArray) const;
 	void Patch(const vector<uint8_t> vOpcodeArray) const;
+	void SetNOP(size_t vOpcodeArray) const;
 	void PatchString(const string& svString) const;
 	CMemory FindPattern(const string& svPattern, const Direction searchDirect = Direction::DOWN, const int opCodesToScan = 512, const ptrdiff_t occurrence = 1) const;
 	CMemory FindPatternSelf(const string& svPattern, const Direction searchDirect = Direction::DOWN, const int opCodesToScan = 512, const ptrdiff_t occurrence = 1);

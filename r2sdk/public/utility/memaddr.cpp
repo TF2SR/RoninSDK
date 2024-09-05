@@ -72,6 +72,18 @@ void CMemory::PatchString(const string& svString) const
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: patch size with nop opcodes
+// Input  : nSize -
+//-----------------------------------------------------------------------------
+void CMemory::SetNOP(const size_t nSize) const
+{
+	std::vector<uint8_t> vOpcodeArray;
+	vOpcodeArray.resize(nSize);
+	memset(vOpcodeArray.data(), 0x90, nSize);
+	Patch(vOpcodeArray);
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: find array of bytes in process memory
 // Input  : *szPattern - 
 //			searchDirect - 

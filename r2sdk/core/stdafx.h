@@ -124,6 +124,7 @@ inline CModule* g_pEngineDll = nullptr;
 inline CModule* g_pClientDll = nullptr;
 inline CModule* g_pServerDll = nullptr;
 inline CModule* g_pFSStdioDll = nullptr; // filesystem_stdio.dll
+inline CModule* g_pMatSys_DX11Dll = nullptr;
 
 inline const string g_ProcessTimestamp = CreateTimedFileName();
 
