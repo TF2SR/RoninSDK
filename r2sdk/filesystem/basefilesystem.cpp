@@ -11,7 +11,13 @@ void CBaseFileSystem__AddSearchPath(IFileSystem* self, const char* pPath, const 
 	if (!strcmp(pathID, "GAME") && modFileDir.compare(pPath) && addType == SearchPathAdd_t::PATH_ADD_TO_HEAD)
 	{
 		DevMsg(eDLL_T::FS, "Adding mod path in...\n", pPath, pathID, addType);
-		v_CBaseFileSystem__AddSearchPath(self, MOD_FILE_DIR, "GAME", SearchPathAdd_t::PATH_ADD_TO_HEAD);
+		char dir[MAX_PATH];
+		if (!g_pFullFileSystem->GetCurrentDirectory(dir, MAX_PATH))
+			return;
+		std::string dirStr = dir;
+		dirStr += "\\";
+		dirStr += MOD_FILE_DIR;
+		v_CBaseFileSystem__AddSearchPath(self, dirStr.c_str(), "GAME", SearchPathAdd_t::PATH_ADD_TO_HEAD);
 	}
 }
 
@@ -42,8 +48,8 @@ bool CBaseFilesystem__VCheckDisk(const char* pszFilePath)
 		std::string dirStr = dir;
 		dirStr += "\\";
 		dirStr += MOD_FILE_DIR;
+		DevMsg(eDLL_T::FS, "File found %s", svFilePath.c_str());
 
-		v_CBaseFileSystem__AddSearchPath(g_pFullFileSystem, dirStr.c_str(), "GAME", SearchPathAdd_t::PATH_ADD_TO_HEAD);
 		v_CBaseFileSystem__AddSearchPath(g_pFullFileSystem, dirStr.c_str(), "GAME", SearchPathAdd_t::PATH_ADD_TO_HEAD);
 
 		return true;
