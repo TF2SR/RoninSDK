@@ -1,4 +1,4 @@
-LIBRARY r2sdk
+LIBRARY roninsdk
 
 EXPORTS
     DummyExport @1

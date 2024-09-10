@@ -1,4 +1,4 @@
-add_library(r2sdk SHARED "common/GameUI/IGameConsole.h"
+add_library(roninsdk SHARED "common/GameUI/IGameConsole.h"
                          "common/experimental.h"
                          "common/pseudodefs.h"
                          "common/sdkdefs.h"
@@ -130,8 +130,8 @@ add_library(r2sdk SHARED "common/GameUI/IGameConsole.h"
                          "windows/loadlibrary.cpp"
                          "windows/loadlibrary.h")
 
-target_link_libraries(r2sdk detours spdlog libcurl dbghelp wsock32 ws2_32 nlohmann_json::nlohmann_json)
+target_link_libraries(roninsdk detours spdlog libcurl dbghelp wsock32 ws2_32 nlohmann_json::nlohmann_json)
 
-target_precompile_headers(r2sdk PUBLIC "core/stdafx.h")
+target_precompile_headers(roninsdk PUBLIC "core/stdafx.h")
 
 include_directories(. public)

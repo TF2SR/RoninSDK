@@ -50,11 +50,11 @@ int APIENTRY WinMain(
 		return EXIT_FAILURE;
 	}
 
-	swprintf_s(szPathBuffer, L"%s\\r2sdk.dll", szExePath);
+	swprintf_s(szPathBuffer, L"%s\\roninsdk.dll", szExePath);
 	HMODULE hSDK = LoadLibraryExW(szPathBuffer, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
 	if (hSDK == NULL)
 	{
-		Error("Failed to load r2sdk.dll!");
+		Error("Failed to load roninsdk.dll!");
 		return EXIT_FAILURE;
 	}
 

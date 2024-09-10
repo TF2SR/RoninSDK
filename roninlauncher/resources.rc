@@ -74,9 +74,9 @@ BEGIN
             VALUE "CompanyName", "TF2SR"
             VALUE "FileDescription", "Ronin Launcher"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "r2launcher.exe"
+            VALUE "InternalName", "roninlauncher.exe"
             VALUE "LegalCopyright", "Copyright (C) 2024"
-            VALUE "OriginalFilename", "r2launcher.exe"
+            VALUE "OriginalFilename", "roninlauncher.exe"
             VALUE "ProductName", "Ronin Launcher"
             VALUE "ProductVersion", "1.0.0.1"
         END

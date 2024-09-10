@@ -2,7 +2,7 @@
 
 include(FetchContent)
 
-project ("r2sdk")
+project ("roninsdk")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
@@ -14,8 +14,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/game)
 
 include_directories(. thirdparty)
 
-add_subdirectory("r2launcher")
-add_subdirectory("r2sdk")
+add_subdirectory("roninlauncher")
+add_subdirectory("roninsdk")
 
 set(HTTP_ONLY ON)
 set(CURL_STATICLIB ON)

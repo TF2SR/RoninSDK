@@ -27,7 +27,7 @@ void Console_Init()
 		return;
 	}
 
-	SetConsoleTitleA("r2sdk");
+	SetConsoleTitleA("Ronin Console");
 
 	FILE* fDummy;
 	freopen_s(&fDummy, "CONIN$", "r", stdin);

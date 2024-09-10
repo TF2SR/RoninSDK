@@ -72,7 +72,7 @@ void Systems_Init()
 	//initTimer.End();
 
 	spdlog::info("+---------------------------------------------------------------------+\n");
-	REGISTER_MODULE("r2sdk.dll");
+	REGISTER_MODULE("roninsdk.dll");
 	REGISTER_MODULE("tier0.dll");
 	REGISTER_MODULE("launcher.dll");
 	//spdlog::info("{:16s} '{:10.6f}' seconds ('{:12d}' clocks)\n", "Detour->InitDB()", initTimer.GetDuration().GetSeconds(), initTimer.GetDuration().GetCycles());
@@ -261,7 +261,7 @@ void CheckCPU() // Respawn's engine and our SDK utilize POPCNT, SSE3 and SSSE3 (
 
 bool AllocateModule(string strModule)
 {
-	SCAN_MODULE(strModule, r2sdk.dll, g_pSDKDll);
+	SCAN_MODULE(strModule, roninsdk.dll, g_pSDKDll);
 	SCAN_MODULE(strModule, tier0.dll, g_pTier0Dll);
 	SCAN_MODULE(strModule, launcher.dll, g_pLauncherDll);
 	SCAN_MODULE(strModule, engine.dll, g_pEngineDll);
