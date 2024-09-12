@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sqapi.h"
 #include "isquirrelmanager.h"
 
 template<ScriptContext context>
@@ -45,6 +46,20 @@ public:
 	virtual SQFloat* GetVector(HSquirrelVM* sqvm, SQInteger iStackpos);
 	virtual SQBool GetThisEntity(HSquirrelVM* sqvm, void** ppEntity);
 	virtual void GetObject(HSquirrelVM* sqvm, SQInteger iStackPos, SQObject* pOutObj);
+	virtual int GetFunction(HSquirrelVM* sqvm, const char* name, SQObject* returnObj, const char* signature);
+	virtual SQObject* CreateScriptInstance(void** ent);
+
+	template <typename T> inline T* GetEntity(HSquirrelVM* sqvm, SQInteger iStackPos)
+	{
+		SQObject obj;
+		GetObject(sqvm, iStackPos, &obj);
+
+		// there are entity constants for other types, but seemingly CBaseEntity's is the only one needed
+		return (T*)v_sq_getentityfrominstance<context>(m_pSQVM, &obj, v_sq_GetEntityConstant_CBaseEntity<context>());
+	}
+
+	// Utility
+	void PushFuncOntoStack(const char* funcname);
 
 	void SQVMCreated(CSquirrelVM* sqvm);
 	void SQVMDestroyed();

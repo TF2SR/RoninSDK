@@ -146,4 +146,24 @@ inline CMemory p_sq_getobject;
 template<ScriptContext context>
 inline auto v_sq_getobject = p_sq_getobject<context>.RCast<void(*)(HSquirrelVM* sqvm, SQInteger iStackPos, SQObject* pOutObj)>();
 
+template<ScriptContext context>
+inline CMemory p_sq_getfunction;
+template<ScriptContext context>
+inline auto v_sq_getfunction = p_sq_getfunction<context>.RCast<SQBool(*)(HSquirrelVM * sqvm, const char* name, SQObject * returnObj, const char* signature)>();
+
+template<ScriptContext context>
+inline CMemory p_sq_getentityfrominstance;
+template<ScriptContext context>
+inline auto v_sq_getentityfrominstance = p_sq_getentityfrominstance<context>.RCast<void*(*)(CSquirrelVM * sqvm, SQObject * pInstance, char** ppEntityConstant)>();
+
+template<ScriptContext context>
+inline CMemory p_sq_createscriptinstance;
+template<ScriptContext context>
+inline auto v_sq_createscriptinstance = p_sq_createscriptinstance<context>.RCast<SQObject*(*)(void** ent)>();
+
+template<ScriptContext context>
+inline CMemory p_sq_GetEntityConstant_CBaseEntity;
+template<ScriptContext context>
+inline auto v_sq_GetEntityConstant_CBaseEntity = p_sq_GetEntityConstant_CBaseEntity<context>.RCast<char **(*)()>();
+
 ///////////////////////////////////////////////////////////////////////////////

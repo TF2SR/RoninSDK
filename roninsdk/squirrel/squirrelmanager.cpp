@@ -195,6 +195,12 @@ void SquirrelManager<context>::GetObject(HSquirrelVM* sqvm, SQInteger iStackPos,
 	v_sq_getobject<context>(sqvm, iStackPos, pOutObj);
 }
 
+template<ScriptContext context>
+int SquirrelManager<context>::GetFunction(HSquirrelVM* sqvm, const char* name, SQObject* returnObj, const char* signature)
+{
+	return v_sq_getfunction<context>(sqvm, name, returnObj, signature);
+}
+
 /* ==== MANAGER FUNCS =================================================================================================================================================== */
 template<ScriptContext context>
 void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
@@ -208,6 +214,15 @@ void SquirrelManager<context>::SQVMDestroyed()
 	m_pSQVM = nullptr;
 }
 
+template<ScriptContext context> SQObject* SquirrelManager<context>::CreateScriptInstance(void** ent)
+{
+	return v_sq_createscriptinstance<context>(ent);
+}
+
+/// <summary>
+/// Finds and pushes a global squirrel function onto the stack.
+/// </summary>
+/// <param name="funcname">- The name of the function to look for.</param>
 template<ScriptContext context>
 void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
 {

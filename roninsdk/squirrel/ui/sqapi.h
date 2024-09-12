@@ -71,6 +71,10 @@ class VSqapi_UI : public IDetour
 		p_sq_getvector<ScriptContext::UI> = g_pClientDll->Offset(0x6140);
 		p_sq_getthisentity<ScriptContext::UI> = g_pClientDll->Offset(0x12F80);
 		p_sq_getobject<ScriptContext::UI> = g_pClientDll->Offset(0x6160);
+		p_sq_createscriptinstance<ScriptContext::UI> = g_pClientDll->Offset(0xC20E0);
+		p_sq_getentityfrominstance<ScriptContext::UI> = g_pClientDll->Offset(0x114F0);
+		p_sq_getfunction<ScriptContext::UI> = g_pClientDll->Offset(0x6CB0);
+		p_sq_GetEntityConstant_CBaseEntity<ScriptContext::UI> = g_pClientDll->Offset(0x3E49B0);
 
 		v_sq_getstring<ScriptContext::UI> = p_sq_getstring<ScriptContext::UI>.RCast<const SQChar*(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
 		v_sq_getinteger<ScriptContext::UI> = p_sq_getinteger<ScriptContext::UI>.RCast<SQInteger(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
@@ -82,6 +86,10 @@ class VSqapi_UI : public IDetour
 		v_sq_getvector<ScriptContext::UI> = p_sq_getvector<ScriptContext::UI>.RCast<SQFloat*(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
 		v_sq_getthisentity<ScriptContext::UI> = p_sq_getthisentity<ScriptContext::UI>.RCast<SQBool(*)(HSquirrelVM* sqvm, void** ppEntity)>();
 		v_sq_getobject<ScriptContext::UI> = p_sq_getobject<ScriptContext::UI>.RCast<void(*)(HSquirrelVM* sqvm, SQInteger iStackPos, SQObject* pOutObj)>();
+		v_sq_createscriptinstance<ScriptContext::UI> = p_sq_createscriptinstance<ScriptContext::UI>.RCast<SQObject * (*)(void** ent)>();
+		v_sq_getentityfrominstance<ScriptContext::UI> = p_sq_getentityfrominstance<ScriptContext::UI>.RCast<void* (*)(CSquirrelVM * sqvm, SQObject * pInstance, char** ppEntityContstant)>();
+		v_sq_getfunction<ScriptContext::UI> = p_sq_getfunction<ScriptContext::UI>.RCast<SQBool(*)(HSquirrelVM * sqvm, const char* name, SQObject * returnObj, const char* signature)>();
+		v_sq_GetEntityConstant_CBaseEntity<ScriptContext::UI> = p_sq_GetEntityConstant_CBaseEntity<ScriptContext::UI>.RCast<char** (*)()>();
 	}
 	virtual void GetVar(void) const { }
 	virtual void GetCon(void) const { }

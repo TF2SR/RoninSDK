@@ -71,6 +71,10 @@ class VSqapi_CLIENT : public IDetour
 		p_sq_getvector<ScriptContext::CLIENT> = g_pClientDll->Offset(0x6140);
 		p_sq_getthisentity<ScriptContext::CLIENT> = g_pClientDll->Offset(0x12F80);
 		p_sq_getobject<ScriptContext::CLIENT> = g_pClientDll->Offset(0x6160);
+		p_sq_createscriptinstance<ScriptContext::CLIENT> = g_pClientDll->Offset(0xC20E0);
+		p_sq_getentityfrominstance<ScriptContext::CLIENT> = g_pClientDll->Offset(0x114F0);
+		p_sq_getfunction<ScriptContext::CLIENT> = g_pClientDll->Offset(0x6CB0);
+		p_sq_GetEntityConstant_CBaseEntity<ScriptContext::CLIENT> = g_pClientDll->Offset(0x3E49B0);
 
 		v_sq_getstring<ScriptContext::CLIENT> = p_sq_getstring<ScriptContext::CLIENT>.RCast<const SQChar*(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
 		v_sq_getinteger<ScriptContext::CLIENT> = p_sq_getinteger<ScriptContext::CLIENT>.RCast<SQInteger(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
@@ -82,6 +86,10 @@ class VSqapi_CLIENT : public IDetour
 		v_sq_getvector<ScriptContext::CLIENT> = p_sq_getvector<ScriptContext::CLIENT>.RCast<SQFloat*(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
 		v_sq_getthisentity<ScriptContext::CLIENT> = p_sq_getthisentity<ScriptContext::CLIENT>.RCast<SQBool(*)(HSquirrelVM* sqvm, void** ppEntity)>();
 		v_sq_getobject<ScriptContext::CLIENT> = p_sq_getobject<ScriptContext::CLIENT>.RCast<void(*)(HSquirrelVM* sqvm, SQInteger iStackPos, SQObject* pOutObj)>();
+		v_sq_createscriptinstance<ScriptContext::CLIENT> = p_sq_createscriptinstance<ScriptContext::CLIENT>.RCast<SQObject * (*)(void** ent)>();
+		v_sq_getentityfrominstance<ScriptContext::CLIENT> = p_sq_getentityfrominstance<ScriptContext::CLIENT>.RCast<void*(*)(CSquirrelVM * sqvm, SQObject * pInstance, char** ppEntityContstant)>();
+		v_sq_getfunction<ScriptContext::CLIENT> = p_sq_getfunction<ScriptContext::CLIENT>.RCast<SQBool(*)(HSquirrelVM * sqvm, const char* name, SQObject * returnObj, const char* signature)>();
+		v_sq_GetEntityConstant_CBaseEntity<ScriptContext::CLIENT> = p_sq_GetEntityConstant_CBaseEntity<ScriptContext::CLIENT>.RCast<char **(*)()>();
 	}
 	virtual void GetVar(void) const { }
 	virtual void GetCon(void) const { }
