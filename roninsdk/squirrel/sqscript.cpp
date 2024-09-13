@@ -5,6 +5,7 @@
 #include "squirrel/server/sqscript.h"
 #include "squirrel/squirrelmanager.h"
 #include "squirrel/sqinit.h"
+#include "speedrunning/speedometer.h"
 
 template <ScriptContext context>
 CSquirrelVM* CSquirrelVM_Init(void* a1, ScriptContext nSqContext)
@@ -24,6 +25,8 @@ CSquirrelVM* CSquirrelVM_Init(void* a1, ScriptContext nSqContext)
 		g_pSQManager<ScriptContext::CLIENT>->SQVMCreated(sqvm);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string.", "string", "", &SHARED::GetSdkVersion<ScriptContext::CLIENT>);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::CLIENT>);
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
+			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
 		break;
 	case ScriptContext::UI:
 		g_pSQManager<ScriptContext::UI>->SQVMCreated(sqvm);
