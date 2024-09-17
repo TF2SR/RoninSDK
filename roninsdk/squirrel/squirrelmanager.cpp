@@ -30,6 +30,23 @@ int64 SquirrelManager<context>::RegisterFunction(CSquirrelVM* sqvm, const SQChar
 }
 
 template<ScriptContext context>
+int64 SquirrelManager<context>::RegisterFunction(CSquirrelVM* sqvm, const SQChar* scriptname, const SQChar* returntype, const SQChar* arguments, void* functor)
+{
+	SQFuncRegistration func;
+	memset(&func, 0, sizeof(SQFuncRegistration));
+	func.squirrelFuncName = scriptname;
+	std::string cppFuncStr = "Script_";
+	cppFuncStr += scriptname;
+	func.cppFuncName = cppFuncStr.c_str();
+	func.helpText = "help string";
+	func.returnTypeString = returntype;
+	func.argTypes = arguments;
+	func.funcPtr = functor;
+
+	return v_sq_registerfunc<context>(sqvm, &func, 1);
+}
+
+template<ScriptContext context>
 void SquirrelManager<context>::DefConst(CSquirrelVM* sqvm, const SQChar* name, int value)
 {
 	v_sq_defconst<context>(sqvm, name, value);

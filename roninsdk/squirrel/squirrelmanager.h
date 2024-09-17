@@ -11,6 +11,7 @@ public:
 
 	// Core funcs
 	virtual int64 RegisterFunction(CSquirrelVM* sqvm, const SQChar* scriptname, const SQChar* nativename, const SQChar* helpstring, const SQChar* returntype, const SQChar* arguments, void* functor);
+	virtual int64 RegisterFunction(CSquirrelVM* sqvm, const SQChar* scriptname, const SQChar* returntype, const SQChar* arguments, void* functor);
 	virtual void DefConst(CSquirrelVM* sqvm, const SQChar* name, int value);
 	virtual SQRESULT CompileBuffer(HSquirrelVM* sqvm, SQBufferState* compileBuffer, const char* file, int a1, SQBool bShouldThrowError);
 	virtual SQRESULT Call(HSquirrelVM* sqvm, SQInteger iArgs, SQBool bShouldReturn, SQBool bThrowError);
