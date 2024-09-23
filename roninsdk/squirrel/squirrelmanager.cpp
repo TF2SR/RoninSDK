@@ -230,6 +230,8 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 	// TODO: probably remove GetSdkVersion? may have a use tho? idk
 	g_pSQManager<context>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string", "string", "", &SHARED::GetSdkVersion<context>);
 	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::SERVER>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "EncodeJSON", "Script_EncodeJSON", "Encodes a table into a JSON string", "string", "table t", &SHARED::Script_EncodeJSON<context>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "DecodeJSON", "Script_DecodeJSON", "Decodes a JSON string into a table", "table", "string json", &SHARED::Script_DecodeJSON<context>);
 
 	if (context == ScriptContext::CLIENT)
 	{
