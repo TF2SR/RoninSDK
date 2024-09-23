@@ -5,7 +5,6 @@
 #include "squirrel/server/sqscript.h"
 #include "squirrel/squirrelmanager.h"
 #include "squirrel/sqinit.h"
-#include "speedrunning/speedometer.h"
 
 template <ScriptContext context>
 CSquirrelVM* CSquirrelVM_Init(void* a1, ScriptContext nSqContext)
@@ -18,21 +17,12 @@ CSquirrelVM* CSquirrelVM_Init(void* a1, ScriptContext nSqContext)
 	{
 	case ScriptContext::SERVER:
 		g_pSQManager<ScriptContext::SERVER>->SQVMCreated(sqvm);
-		g_pSQManager<ScriptContext::SERVER>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string", "string", "", &SHARED::GetSdkVersion<ScriptContext::SERVER>);
-		g_pSQManager<ScriptContext::SERVER>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::SERVER>);
 		break;
 	case ScriptContext::CLIENT:
 		g_pSQManager<ScriptContext::CLIENT>->SQVMCreated(sqvm);
-		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string.", "string", "", &SHARED::GetSdkVersion<ScriptContext::CLIENT>);
-		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::CLIENT>);
-		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
-			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
 		break;
 	case ScriptContext::UI:
 		g_pSQManager<ScriptContext::UI>->SQVMCreated(sqvm);
-		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string.", "string", "", &SHARED::GetSdkVersion<ScriptContext::UI>);
-		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::UI>);
-		// ModTimer_RegisterFuncs_UI(sqvm);
 		break;
 	}
 
@@ -42,7 +32,6 @@ CSquirrelVM* CSquirrelVM_Init(void* a1, ScriptContext nSqContext)
 template <ScriptContext context>
 void* SQCompiler_Create(HSquirrelVM* sqvm, void* a2, void* a3, SQBool bShouldThrowError)
 {
-	DevMsg(eDLL_T::SCRIPT_UI, "fatal? %s %d\n", SQ_GetContextName(SQ_GetVMContext(sqvm)).c_str(), bShouldThrowError);
 	// store whether the compile attempt should be fatal
 	if (SQ_GetVMContext(sqvm) == ScriptContext::UI)
 		g_pSQManager<ScriptContext::UI>->fatalCompileErrors = bShouldThrowError;

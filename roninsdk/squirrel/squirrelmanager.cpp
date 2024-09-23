@@ -2,6 +2,9 @@
 #include "squirrel/sqapi.h"
 #include "squirrel/sqvm.h"
 #include "tier0/threadtools.h"
+#include "squirrel/sqinit.h"
+#include "squirrel/sqjson.h"
+#include "speedrunning/speedometer.h"
 
 template class SquirrelManager<ScriptContext::SERVER>;
 template class SquirrelManager<ScriptContext::CLIENT>;
@@ -223,6 +226,16 @@ template<ScriptContext context>
 void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 {
 	m_pSQVM = sqvm;
+
+	// TODO: probably remove GetSdkVersion? may have a use tho? idk
+	g_pSQManager<context>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string", "string", "", &SHARED::GetSdkVersion<context>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::SERVER>);
+
+	if (context == ScriptContext::CLIENT)
+	{
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
+			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
+	}
 }
 
 template<ScriptContext context>
