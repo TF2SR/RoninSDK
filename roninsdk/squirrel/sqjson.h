@@ -15,7 +15,7 @@ namespace SHARED
 			switch (node->_Type)
 			{
 			case OT_STRING:
-				obj.push_back(reinterpret_cast<const char*>(node->_VAL.asString->_val));
+				obj.push_back(reinterpret_cast<const char*>(&node->_VAL.asString->_val[0]));
 				break;
 			case OT_INTEGER:
 				obj.push_back(node->_VAL.asInteger);
@@ -84,17 +84,17 @@ namespace SHARED
 
 	template <ScriptContext context> nlohmann::json EncodeJsonTable(SQTable* table)
 	{
-		nlohmann::json obj;
+		nlohmann::json obj = nlohmann::json::object();
 		for (int i = 0; i < table->_numOfNodes; i++)
 		{
 			tableNode* node = &table->_nodes[i];
 			if (node->key._Type == OT_STRING)
 			{
-				const char* key = reinterpret_cast<const char*>(node->key._VAL.asString->_val);
+				const char* key = reinterpret_cast<const char*>(&node->key._VAL.asString->_val[0]);
 				switch (node->val._Type)
 				{
 				case OT_STRING:
-					obj[key] = reinterpret_cast<const char*>(node->val._VAL.asString->_val);
+					obj[key] = reinterpret_cast<const char*>(&node->val._VAL.asString->_val[0]);
 					break;
 				case OT_INTEGER:
 					obj[key] = node->val._VAL.asInteger;
@@ -181,7 +181,8 @@ namespace SHARED
 		SQTable* pTable = sqvm->_stackOfCurrentFunction[1]._VAL.asTable;
 
 		nlohmann::json doc = EncodeJsonTable<context>(pTable);
-		g_pSQManager<context>->PushString(sqvm, doc.dump().c_str(), -1);
+		assert(doc.type() == nlohmann::json::value_t::object);
+		g_pSQManager<context>->PushString(sqvm, doc.dump(4).c_str(), -1);
 
 		DevMsg((eDLL_T)context, doc.type_name());
 

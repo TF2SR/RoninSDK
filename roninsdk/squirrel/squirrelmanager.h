@@ -49,6 +49,7 @@ public:
 	virtual void GetObject(HSquirrelVM* sqvm, SQInteger iStackPos, SQObject* pOutObj);
 	virtual int GetFunction(HSquirrelVM* sqvm, const char* name, SQObject* returnObj, const char* signature);
 	virtual SQObject* CreateScriptInstance(void** ent);
+	virtual SQStackInfos* GetStackInfos(int level);
 
 	template <typename T> inline T* GetEntity(HSquirrelVM* sqvm, SQInteger iStackPos)
 	{

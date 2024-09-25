@@ -18,6 +18,18 @@ SQRESULT Script_GetCurrentClockTime(HSquirrelVM* sqvm)
 	return SQRESULT_NOTNULL;
 }
 
+SQRESULT Script_Timer_SetCurrentStartPoint(HSquirrelVM* sqvm)
+{
+	curStartPoint = g_pSQManager<ScriptContext::SERVER>->GetInteger(sqvm, 1);
+	return SQRESULT_NULL;
+}
+
+SQRESULT Script_Timer_GetCurrentStartPoint(HSquirrelVM* sqvm)
+{
+	g_pSQManager<ScriptContext::UI>->PushInteger(sqvm, curStartPoint);
+	return SQRESULT_NOTNULL;
+}
+
 template <ScriptContext context>
 SQRESULT Script_IsInCutscene(HSquirrelVM* sqvm)
 {
@@ -38,32 +50,30 @@ SQRESULT Script_GetEngineTick(HSquirrelVM* sqvm)
 }
 
 bool shouldChangeLevel;
-SQRESULT Script_SetShouldNotChangeLevel(HSquirrelVM* sqvm)
+SQRESULT Script_SetShouldChangeLevel(HSquirrelVM* sqvm)
 {
 	// stub.
-	shouldChangeLevel = false;
+	shouldChangeLevel = g_pSQManager<ScriptContext::UI>->GetBool(sqvm, 1);
 	return SQRESULT_NULL;
+}
+
+SQRESULT Script_HasCurrentLevelEnded(HSquirrelVM* sqvm)
+{
+	g_pSQManager<ScriptContext::UI>->PushBool(sqvm, hasLevelEnded);
+	return SQRESULT_NOTNULL;
 }
 
 SQRESULT Script_ChangeLevel(HSquirrelVM* sqvm)
 {
 	std::string targetLevel = g_pSQManager<ScriptContext::SERVER>->GetString(sqvm, 1);
-	DevMsg(eDLL_T::SERVER, targetLevel.c_str());	
-	std::chrono::time_point point = std::chrono::steady_clock::now();
-	// this is only a call since we need it synced.
-	// we prefer asynccall because it is more stable.
-	HSquirrelVM* uiSqvm = g_pSQManager<ScriptContext::UI>->m_pSQVM->sqvm;
-	if (g_pSQManager<ScriptContext::UI>->PushFuncOntoStack("CodeCallback_ShouldChangeLevel"))
-	{
-		shouldChangeLevel = true;
-		g_pSQManager<ScriptContext::UI>->PushString(uiSqvm, targetLevel.c_str(), -1);
-		DevMsg(eDLL_T::SERVER, "calling ui");
-		SQRESULT result = g_pSQManager<ScriptContext::UI>->Call(uiSqvm, 1, false, true);
+	std::string currentLevel = v_currentMap;
 
-		if (shouldChangeLevel)
-		{
-			return v_Script_ChangeLevel(sqvm);
-		}
+	DevMsg(eDLL_T::SERVER, targetLevel.c_str());
+	DevMsg(eDLL_T::SERVER, currentLevel.c_str());
+
+	if (!shouldChangeLevel && currentLevel != targetLevel)
+	{
+		hasLevelEnded = true;
 		return SQRESULT_NULL;
 	}
 
@@ -77,7 +87,9 @@ void ModTimer_RegisterFuncs_UI(CSquirrelVM* sqvm)
 	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetCurrentClockTime", "int", "", &Script_GetCurrentClockTime);
 	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "IsInLoadingScreen", "bool", "", &Script_IsInLoadingScreen);
 	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetEngineTick", "int", "", &Script_GetEngineTick);
-	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "SetShouldNotChangeLevel", "void", "", &Script_SetShouldNotChangeLevel);
+	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "SetShouldChangeLevel", "void", "bool should", &Script_SetShouldChangeLevel);
+	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "HasCurrentLevelEnded", "bool", "", &Script_HasCurrentLevelEnded);
+	g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "Timer_GetCurrentStartPoint", "int", "", &Script_Timer_GetCurrentStartPoint);
 }
 
 void ModTimer_RegisterFuncs_Client(CSquirrelVM* sqvm)

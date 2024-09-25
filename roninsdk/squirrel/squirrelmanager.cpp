@@ -231,7 +231,7 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 
 	// TODO: probably remove GetSdkVersion? may have a use tho? idk
 	g_pSQManager<context>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string", "string", "", &SHARED::GetSdkVersion<context>);
-	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::SERVER>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<context>);
 	g_pSQManager<context>->RegisterFunction(sqvm, "EncodeJSON", "Script_EncodeJSON", "Encodes a table into a JSON string", "string", "table t", &SHARED::Script_EncodeJSON<context>);
 	g_pSQManager<context>->RegisterFunction(sqvm, "DecodeJSON", "Script_DecodeJSON", "Decodes a JSON string into a table", "table", "string json", &SHARED::Script_DecodeJSON<context>);
 
@@ -241,7 +241,7 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
 		ModTimer_RegisterFuncs_Client(sqvm);
 	}
-	if (context == ScriptContext::UI)
+	else if (context == ScriptContext::UI)
 	{
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "SaveFile", "void", "string path, string contents", &Script_SaveFile);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "LoadFile", "void", "string path", &Script_LoadFile);
@@ -250,6 +250,11 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFileResults", "string", "string path", &Script_GetFileResults);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFilesInDir", "array<string>", "string path", &Script_GetFilesInDir);
 		ModTimer_RegisterFuncs_UI(sqvm);
+	}
+	else // if (context == ScriptContext::SERVER)
+	{
+		hasLevelEnded = false;
+		g_pSQManager<ScriptContext::SERVER>->RegisterFunction(sqvm, "Timer_SetCurrentStartPoint", "void", "int val", &Script_Timer_SetCurrentStartPoint);
 	}
 }
 
@@ -315,4 +320,16 @@ void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
 		SQRESULT callResult = Call(m_pSQVM->sqvm, 0, false, false);
 		DevMsg(eDLL_T::ENGINE, "Call returned %i", callResult);
 	}
+}
+
+template <ScriptContext context> SQStackInfos* SquirrelManager<context>::GetStackInfos(int level)
+{
+	if (!m_pSQVM || !m_pSQVM->sqvm)
+	{
+		return nullptr;
+	}
+	HSquirrelVM* sqvm = m_pSQVM->sqvm;
+	SQStackInfos out;
+	v_sq_stackinfos<context>(sqvm, level, &out, sqvm->_callstacksize);
+	return &out;
 }

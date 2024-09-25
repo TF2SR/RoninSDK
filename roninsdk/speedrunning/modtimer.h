@@ -4,12 +4,19 @@
 #include "iconvar.h"
 #include "tier1/cmd.h"
 
+SQRESULT Script_Timer_SetCurrentStartPoint(HSquirrelVM* sqvm);
 void ModTimer_RegisterFuncs_Client(CSquirrelVM* sqvm);
 void ModTimer_RegisterFuncs_UI(CSquirrelVM* sqvm);
+
+inline bool hasLevelEnded;
+inline int curStartPoint;
 
 inline CMemory p_inLoadingScreen;
 inline CMemory p_tickCount;
 inline CMemory p_inCutscene;
+
+inline CMemory p_currentMap;
+inline auto v_currentMap = p_currentMap.RCast<const char*>();
 
 inline CMemory p_Script_ChangeLevel;
 inline auto v_Script_ChangeLevel = p_Script_ChangeLevel.RCast<SQRESULT(*)(HSquirrelVM* sqvm)>();
@@ -66,6 +73,9 @@ class VModTimerServer : public IDetour
 	{
 		p_Script_ChangeLevel = g_pServerDll->Offset(0x2772b0);
 		v_Script_ChangeLevel = p_Script_ChangeLevel.RCast<SQRESULT(*)(HSquirrelVM* sqvm)>();
+
+		p_currentMap = g_pServerDll->Offset(0x1053370);
+		v_currentMap = p_currentMap.RCast<const char*>();
 	}
 	virtual void GetVar(void) const { }
 	virtual void GetCon(void) const { }

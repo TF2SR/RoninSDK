@@ -30,9 +30,11 @@ class VSqapi_CLIENT : public IDetour
 		// ARRAY FUNCS
 		p_sq_newarray<ScriptContext::CLIENT> = g_pClientDll->Offset(0x39F0);
 		p_sq_arrayappend<ScriptContext::CLIENT> = g_pClientDll->Offset(0x3C70);
+		p_sq_stackinfos<ScriptContext::CLIENT> = g_pClientDll->Offset(0x35970);
 
 		v_sq_newarray<ScriptContext::CLIENT> = p_sq_newarray<ScriptContext::CLIENT>.RCast<void(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
 		v_sq_arrayappend<ScriptContext::CLIENT> = p_sq_arrayappend<ScriptContext::CLIENT>.RCast<SQRESULT(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
+		v_sq_stackinfos<ScriptContext::CLIENT> = p_sq_stackinfos<ScriptContext::CLIENT>.RCast<long long(*)(HSquirrelVM * sqvm, int iLevel, SQStackInfos * pOutObj, int iCallStackSize)>();
 
 		// TABLE FUNCS
 		p_sq_newtable<ScriptContext::CLIENT> = g_pClientDll->Offset(0x3960);
