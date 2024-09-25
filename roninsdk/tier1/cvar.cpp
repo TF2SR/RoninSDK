@@ -129,6 +129,10 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_practice_mode", "0", FCVAR_NONE, "Enables practice mode (sv_cheats 1)", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_force_moonboots", "0", FCVAR_NONE, "Forces moonboots", false, 0.f, false, 0.f, nullptr);
 
+	// IGT
+	ConVar::StaticCreate("igt_run_category", "any%", FCVAR_ARCHIVE_PLAYERPROFILE, "Run Category", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_run_ended", "0", FCVAR_NONE, "Run Ended", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_should_load_backup", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Should Load Backup", false, 0.f, false, 0.f, nullptr);
 }	
 
 //-----------------------------------------------------------------------------

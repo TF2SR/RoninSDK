@@ -48,7 +48,6 @@ bool CBaseFilesystem__VCheckDisk(const char* pszFilePath)
 		std::string dirStr = dir;
 		dirStr += "\\";
 		dirStr += MOD_FILE_DIR;
-		DevMsg(eDLL_T::FS, "File found %s", svFilePath.c_str());
 
 		v_CBaseFileSystem__AddSearchPath(g_pFullFileSystem, dirStr.c_str(), "GAME", SearchPathAdd_t::PATH_ADD_TO_HEAD);
 

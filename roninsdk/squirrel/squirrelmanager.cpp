@@ -2,6 +2,11 @@
 #include "squirrel/sqapi.h"
 #include "squirrel/sqvm.h"
 #include "tier0/threadtools.h"
+#include "squirrel/sqinit.h"
+#include "squirrel/sqjson.h"
+#include "speedrunning/speedometer.h"
+#include "sqfiles.h"
+#include "speedrunning/modtimer.h"
 
 template class SquirrelManager<ScriptContext::SERVER>;
 template class SquirrelManager<ScriptContext::CLIENT>;
@@ -30,6 +35,23 @@ int64 SquirrelManager<context>::RegisterFunction(CSquirrelVM* sqvm, const SQChar
 }
 
 template<ScriptContext context>
+int64 SquirrelManager<context>::RegisterFunction(CSquirrelVM* sqvm, const SQChar* scriptname, const SQChar* returntype, const SQChar* arguments, void* functor)
+{
+	SQFuncRegistration func;
+	memset(&func, 0, sizeof(SQFuncRegistration));
+	func.squirrelFuncName = scriptname;
+	std::string cppFuncStr = "Script_";
+	cppFuncStr += scriptname;
+	func.cppFuncName = cppFuncStr.c_str();
+	func.helpText = "help string";
+	func.returnTypeString = returntype;
+	func.argTypes = arguments;
+	func.funcPtr = functor;
+
+	return v_sq_registerfunc<context>(sqvm, &func, 1);
+}
+
+template<ScriptContext context>
 void SquirrelManager<context>::DefConst(CSquirrelVM* sqvm, const SQChar* name, int value)
 {
 	v_sq_defconst<context>(sqvm, name, value);
@@ -44,7 +66,7 @@ SQRESULT SquirrelManager<context>::CompileBuffer(HSquirrelVM* sqvm, SQBufferStat
 template<ScriptContext context>
 SQRESULT SquirrelManager<context>::Call(HSquirrelVM* sqvm, SQInteger iArgs, SQBool bShouldReturn, SQBool bThrowError)
 {
-	return v_sq_call<context>(sqvm, iArgs, bShouldReturn, bThrowError);
+	return v_sq_call<context>(sqvm, iArgs + 1, bShouldReturn, bThrowError);
 }
 
 template<ScriptContext context>
@@ -206,6 +228,54 @@ template<ScriptContext context>
 void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 {
 	m_pSQVM = sqvm;
+
+	// TODO: probably remove GetSdkVersion? may have a use tho? idk
+	g_pSQManager<context>->RegisterFunction(sqvm, "GetSdkVersion", "Script_GetSdkVersion", "Returns the sdk version as a string", "string", "", &SHARED::GetSdkVersion<context>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<ScriptContext::SERVER>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "EncodeJSON", "Script_EncodeJSON", "Encodes a table into a JSON string", "string", "table t", &SHARED::Script_EncodeJSON<context>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "DecodeJSON", "Script_DecodeJSON", "Decodes a JSON string into a table", "table", "string json", &SHARED::Script_DecodeJSON<context>);
+
+	if (context == ScriptContext::CLIENT)
+	{
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
+			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
+		ModTimer_RegisterFuncs_Client(sqvm);
+	}
+	if (context == ScriptContext::UI)
+	{
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "SaveFile", "void", "string path, string contents", &Script_SaveFile);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "LoadFile", "void", "string path", &Script_LoadFile);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "DeleteFile", "void", "string path", &Script_DeleteFile);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "IsFileReady", "bool", "string path", &Script_IsFileReady);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFileResults", "string", "string path", &Script_GetFileResults);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFilesInDir", "array<string>", "string path", &Script_GetFilesInDir);
+		ModTimer_RegisterFuncs_UI(sqvm);
+	}
+}
+
+template<ScriptContext context>
+bool SquirrelManager<context>::PushFuncOntoStack(const char* funcname)
+{
+	// Warning!
+	// This function assumes the squirrel VM is stopped/blocked at the moment of call
+	// Calling this function while the VM is running is likely to result in a crash due to stack destruction
+	// If you want to call into squirrel asynchronously, use `schedule_call` instead
+	if (!m_pSQVM || !m_pSQVM->sqvm)
+	{
+		DevMsg(eDLL_T::ENGINE,
+			"%s tried to call %s while VM was not initialized.", __FUNCTION__, funcname);
+		return false;
+	}
+	SQObject functionobj{};
+	int result = GetFunction(m_pSQVM->sqvm, funcname, &functionobj, 0);
+	if (result != 0) // This func returns 0 on success for some reason
+	{
+		DevMsg(eDLL_T::ENGINE, "Call was unable to find function with name '%s'. Is it global?", funcname);
+		return false;
+	}
+	PushObject(m_pSQVM->sqvm, &functionobj); // Push the function object
+	PushRootTable(m_pSQVM->sqvm); // Push root table
+	return true;
 }
 
 template<ScriptContext context>
@@ -242,7 +312,7 @@ void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
 	if (compileResult != SQRESULT_ERROR)
 	{
 		PushRootTable(m_pSQVM->sqvm);
-		SQRESULT callResult = Call(m_pSQVM->sqvm, 1, false, false);
+		SQRESULT callResult = Call(m_pSQVM->sqvm, 0, false, false);
 		DevMsg(eDLL_T::ENGINE, "Call returned %i", callResult);
 	}
 }
