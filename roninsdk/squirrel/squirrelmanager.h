@@ -60,7 +60,7 @@ public:
 	}
 
 	// Utility
-	void PushFuncOntoStack(const char* funcname);
+	bool PushFuncOntoStack(const char* funcname);
 
 	void SQVMCreated(CSquirrelVM* sqvm);
 	void SQVMDestroyed();

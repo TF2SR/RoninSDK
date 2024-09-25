@@ -1,18 +1,16 @@
+#pragma once
 #include "squirrel/squirrelmanager.h"
 #include "nlohmann/json.hpp"
 
 namespace SHARED
 {
-	template <ScriptContext context> void EncodeJsonArray(
-		SQArray* arr,
-		nlohmann::json obj)
+	template <ScriptContext context> nlohmann::json EncodeJsonArray(
+		SQArray* arr)
 	{
+		nlohmann::json obj;
 		for (int i = 0; i < arr->_usedSlots; i++)
 		{
 			SQObject* node = &arr->_values[i];
-
-			nlohmann::json newObj;
-			nlohmann::json newArray = nlohmann::json::array();
 
 			switch (node->_Type)
 			{
@@ -32,17 +30,16 @@ namespace SHARED
 					obj.push_back(false);
 				break;
 			case OT_TABLE:
-				EncodeJsonTable<context>(node->_VAL.asTable, newObj);
-				obj.push_back(newObj);
+				obj.push_back(EncodeJsonTable<context>(node->_VAL.asTable));
 				break;
 			case OT_ARRAY:
-				EncodeJsonArray<context>(node->_VAL.asArray, newArray);
-				obj.push_back(newArray);
+				obj.push_back(EncodeJsonArray<context>(node->_VAL.asArray));
 				break;
 			default:
 				spdlog::info("SQ encode Json type {} not supported", (int)node->_Type);
 			}
 		}
+		return obj;
 	}
 
 	template <ScriptContext context> void
@@ -85,17 +82,14 @@ namespace SHARED
 		}
 	}
 
-	template <ScriptContext context> void EncodeJsonTable(SQTable* table,
-		nlohmann::json& obj)
+	template <ScriptContext context> nlohmann::json EncodeJsonTable(SQTable* table)
 	{
+		nlohmann::json obj;
 		for (int i = 0; i < table->_numOfNodes; i++)
 		{
 			tableNode* node = &table->_nodes[i];
 			if (node->key._Type == OT_STRING)
 			{
-				nlohmann::json newObj = nlohmann::json::object();
-				nlohmann::json newArray = nlohmann::json::array();
-
 				const char* key = reinterpret_cast<const char*>(node->key._VAL.asString->_val);
 				switch (node->val._Type)
 				{
@@ -119,12 +113,10 @@ namespace SHARED
 					}
 					break;
 				case OT_TABLE:
-					EncodeJsonTable<context>(node->val._VAL.asTable, newObj);
-					obj[key] = newObj;
+					obj[key] = EncodeJsonTable<context>(node->val._VAL.asTable);
 					break;
 				case OT_ARRAY:
-					EncodeJsonArray<context>(node->val._VAL.asArray, newArray);
-					obj[key] = newArray;
+					obj[key] = EncodeJsonArray<context>(node->val._VAL.asArray);
 					break;
 				default:
 					spdlog::warn("SQ_EncodeJSON: squirrel type {} not supported", (int)node->val._Type);
@@ -132,6 +124,7 @@ namespace SHARED
 				}
 			}
 		}
+		return obj;
 	}
 
 	template <ScriptContext context> void
@@ -186,13 +179,11 @@ namespace SHARED
 	template <ScriptContext context> SQRESULT Script_EncodeJSON(HSquirrelVM* sqvm)
 	{
 		SQTable* pTable = sqvm->_stackOfCurrentFunction[1]._VAL.asTable;
-		const bool bFatalParseErrors = g_pSQManager<context>->GetBool(sqvm, 2);
 
-		nlohmann::json doc;
-		EncodeJsonTable<context>(pTable, doc);
+		nlohmann::json doc = EncodeJsonTable<context>(pTable);
 		g_pSQManager<context>->PushString(sqvm, doc.dump().c_str(), -1);
 
-		assert(doc.is_object());
+		DevMsg((eDLL_T)context, doc.type_name());
 
 		return SQRESULT_NOTNULL;
 	}
@@ -200,7 +191,6 @@ namespace SHARED
 	template <ScriptContext context> SQRESULT Script_DecodeJSON(HSquirrelVM* sqvm)
 	{
 		const char* pJson = g_pSQManager<context>->GetString(sqvm, 1);
-		const bool bFatalParseErrors = g_pSQManager<context>->GetBool(sqvm, 2);
 
 		nlohmann::json doc = nlohmann::json::parse(pJson, nullptr, false, false);
 		if (doc.is_discarded())
@@ -208,7 +198,6 @@ namespace SHARED
 			g_pSQManager<context>->RaiseError(sqvm, "JSON passed in is invalid!");
 			return SQRESULT_ERROR;
 		}
-		assert(doc.is_object());
 
 		DecodeJsonTable<context>(sqvm, doc);
 
