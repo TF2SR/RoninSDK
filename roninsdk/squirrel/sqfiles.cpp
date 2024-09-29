@@ -145,6 +145,8 @@ SQRESULT Script_GetFilesInDir(HSquirrelVM* sqvm)
 	path.append(g_pSQManager<ScriptContext::UI>->GetString(sqvm, 1));
 
 	g_pSQManager<ScriptContext::UI>->NewArray(sqvm, 0);
+	if (!fs::exists(path))
+		return SQRESULT_NOTNULL;
 	for (const auto& entry : fs::directory_iterator(path))
 	{
 		g_pSQManager<ScriptContext::UI>->PushString(sqvm, entry.path().filename().string().c_str(), -1);
