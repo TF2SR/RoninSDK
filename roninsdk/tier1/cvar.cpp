@@ -129,6 +129,11 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_practice_mode", "0", FCVAR_NONE, "Enables practice mode (sv_cheats 1)", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_force_moonboots", "0", FCVAR_NONE, "Forces moonboots", false, 0.f, false, 0.f, nullptr);
 
+	// strafemeter
+	ConVar::StaticCreate("dq_strafemeter_position", "0.6 0.56 0.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Strafemeter Position", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("dq_strafemeter_enabled", "0.0", FCVAR_CHEAT, "Enables Strafemeter", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("dq_strafemeter_buffer_length", "10", FCVAR_ARCHIVE_PLAYERPROFILE, "Length of buffer to average", true, 0.f, false, 0.f, nullptr);
+
 }	
 
 //-----------------------------------------------------------------------------
