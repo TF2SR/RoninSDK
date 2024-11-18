@@ -1,6 +1,8 @@
 #pragma once
 #include "squirrel/sqclasstypes.h"
 
+inline const char* SAVE_FILE_DIR = "./ronin/data";
+
 struct FileResults
 {
 	bool success = false;

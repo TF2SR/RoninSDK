@@ -7,6 +7,7 @@
 #include "speedrunning/speedometer.h"
 #include "sqfiles.h"
 #include "speedrunning/modtimer.h"
+#include "speedrunning/crouchkickfix.h"
 
 template class SquirrelManager<ScriptContext::SERVER>;
 template class SquirrelManager<ScriptContext::CLIENT>;
@@ -239,6 +240,11 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 	{
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
 			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_StartedWallrun", "Script_Ronin_StartedWallrun", "", "void", "", &Script_Ronin_StartedWallrun);
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_AppendWallrun", "Script_Ronin_AppendWallrun", "", 
+			"void", "float speedGained, int frameJumpedOff, float frameRate", &Script_Ronin_AppendWallrun); // Script_Ronin_GetWallkickTiming
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetWallkickTiming", "Script_Ronin_GetWallkickTiming", "",
+			"int", "", &Script_Ronin_GetWallkickTiming);
 		ModTimer_RegisterFuncs_Client(sqvm);
 	}
 	else if (context == ScriptContext::UI)
@@ -249,6 +255,8 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "IsFileReady", "bool", "string path", &Script_IsFileReady);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFileResults", "string", "string path", &Script_GetFileResults);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "GetFilesInDir", "array<string>", "string path", &Script_GetFilesInDir);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "Ronin_FindBindsCKF",
+			"Script_Ronin_FindBindsCKF", "Collects binds for CKF.", "void", "", &Script_Ronin_FindBindsCKF);
 		ModTimer_RegisterFuncs_UI(sqvm);
 	}
 	else // if (context == ScriptContext::SERVER)
@@ -286,6 +294,10 @@ bool SquirrelManager<context>::PushFuncOntoStack(const char* funcname)
 template<ScriptContext context>
 void SquirrelManager<context>::SQVMDestroyed()
 {
+	if (context == ScriptContext::CLIENT && m_pSQVM->sqvm && PushFuncOntoStack("SaveFacts"))
+	{
+		SQRESULT result = g_pSQManager<ScriptContext::UI>->Call(m_pSQVM->sqvm, 0, false, true);
+	}
 	m_pSQVM = nullptr;
 }
 

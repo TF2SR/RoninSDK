@@ -49,6 +49,7 @@
 #include "filesystem/diskvmtfixes.h"
 #include "squirrel/sqfiles.h"
 #include "speedrunning/modtimer.h"
+#include "speedrunning/crouchkickfix.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -273,6 +274,7 @@ bool AllocateModule(string strModule)
 	SCAN_MODULE(strModule, server.dll, g_pServerDll);
 	SCAN_MODULE(strModule, filesystem_stdio.dll, g_pFSStdioDll);
 	SCAN_MODULE(strModule, materialsystem_dx11.dll, g_pMatSys_DX11Dll);
+	SCAN_MODULE(strModule, inputsystem.dll, g_pInputSystemDll);
 
 	return false;
 }
@@ -385,4 +387,8 @@ void DetourRegister() // Register detour classes to be searched and hooked.
 	REGISTER(client.dll, VModTimerClient);
 	REGISTER(engine.dll, VModTimerEngine);
 	REGISTER(server.dll, VModTimerServer);
+
+	// CKF
+	REGISTER(inputsystem.dll, VInputSystemHooksCKF);
+	REGISTER(engine.dll, VEngineHooksCKF);
 }

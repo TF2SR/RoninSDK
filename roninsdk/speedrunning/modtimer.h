@@ -9,7 +9,7 @@ void ModTimer_RegisterFuncs_Client(CSquirrelVM* sqvm);
 void ModTimer_RegisterFuncs_UI(CSquirrelVM* sqvm);
 
 inline bool hasLevelEnded;
-inline int curStartPoint;
+inline int curStartPoint = -1;
 
 inline CMemory p_inLoadingScreen;
 inline CMemory p_tickCount;
@@ -23,6 +23,9 @@ inline auto v_Script_ChangeLevel = p_Script_ChangeLevel.RCast<SQRESULT(*)(HSquir
 
 inline CMemory p_LoadSavedGame;
 inline auto v_LoadSavedGame = p_LoadSavedGame.RCast<void(*)(CCommand & sqvm)>();
+
+inline CMemory p_ChangeLevel;
+inline auto v_ChangeLevel = p_ChangeLevel.RCast<void(*)(CCommand & sqvm)>();
 
 class VModTimerEngine : public IDetour
 {
@@ -42,6 +45,9 @@ class VModTimerEngine : public IDetour
 
 		p_LoadSavedGame = g_pEngineDll->Offset(0x166130);
 		v_LoadSavedGame = p_LoadSavedGame.RCast<void(*)(CCommand & sqvm)>();
+
+		p_ChangeLevel = g_pEngineDll->Offset(0x15AAD0);
+		v_ChangeLevel = p_ChangeLevel.RCast<void(*)(CCommand & sqvm)>();
 	}
 	virtual void GetVar(void) const { }
 	virtual void GetCon(void) const { }

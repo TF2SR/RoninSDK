@@ -41,6 +41,17 @@ void* SQCompiler_Create(HSquirrelVM* sqvm, void* a2, void* a3, SQBool bShouldThr
 	return v_SQCompiler_Create<context>(sqvm, a2, a3, bShouldThrowError);
 }
 
+template<ScriptContext context>
+void DestroyVM(void* a1, CSquirrelVM* sqvm)
+{
+	if (((ScriptContext)sqvm->vmContext) == ScriptContext::UI)
+		g_pSQManager<ScriptContext::UI>->SQVMDestroyed();
+	else
+		g_pSQManager<context>->SQVMDestroyed();
+
+	v_DestroyVM<context>(a1, sqvm);
+}
+
 // TODO [Fifty]: Hook VMDestroy
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,6 +60,7 @@ void VSQVM_CLIENT::Attach(void) const
 {
 	DetourAttach((LPVOID*)&v_CSquirrelVM_Init<ScriptContext::CLIENT>, &CSquirrelVM_Init<ScriptContext::CLIENT>);
 	DetourAttach((LPVOID*)&v_SQCompiler_Create<ScriptContext::CLIENT>, &SQCompiler_Create<ScriptContext::CLIENT>);
+	DetourAttach((LPVOID*)&v_DestroyVM<ScriptContext::CLIENT>, &DestroyVM<ScriptContext::CLIENT>);
 }
 
 void VSQVM_CLIENT::Detach(void) const

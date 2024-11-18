@@ -24,6 +24,16 @@ namespace SHARED
 		g_pSQManager<context>->PushAsset(sqvm, g_pSQManager<context>->GetString(sqvm, 1), -1);
 		return SQRESULT_NOTNULL;
 	}
+
+	//-----------------------------------------------------------------------------
+	// Purpose: Prints the location of an entity in memory
+	//-----------------------------------------------------------------------------
+	template<ScriptContext context>
+	SQRESULT PrintEntityAddress(HSquirrelVM* sqvm)
+	{
+		g_pSQManager<context>->PushAsset(sqvm, g_pSQManager<context>->GetString(sqvm, 1), -1);
+		return SQRESULT_NOTNULL;
+	}
 }
 namespace SERVER
 {

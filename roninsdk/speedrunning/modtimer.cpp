@@ -97,6 +97,12 @@ void ModTimer_RegisterFuncs_Client(CSquirrelVM* sqvm)
 	g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "IsInCutscene", "bool", "", &Script_IsInCutscene<ScriptContext::CLIENT>);
 }
 
+void ChangeLevel(CCommand& command)
+{
+	CSquirrelVM* sqvm = g_pSQManager<ScriptContext::CLIENT>->m_pSQVM;
+	v_ChangeLevel(command);
+}
+
 void LoadSavedGame(CCommand& command)
 {
 	HSquirrelVM* sqvm = g_pSQManager<ScriptContext::UI>->m_pSQVM->sqvm;
@@ -121,9 +127,11 @@ void VModTimerServer::Detach(void) const
 void VModTimerEngine::Attach(void) const
 {
 	DetourAttach(&v_LoadSavedGame, LoadSavedGame);
+	DetourAttach(&v_ChangeLevel, ChangeLevel);
 }
 
 void VModTimerEngine::Detach(void) const
 {
 	DetourDetach(&v_LoadSavedGame, LoadSavedGame);
+	DetourDetach(&v_ChangeLevel, ChangeLevel);
 }

@@ -136,7 +136,7 @@ add_library(roninsdk SHARED "common/GameUI/IGameConsole.h"
                          "windows/console.cpp"
                          "windows/console.h"
                          "windows/loadlibrary.cpp"
-                         "windows/loadlibrary.h")
+                         "windows/loadlibrary.h" "speedrunning/crouchkickfix.h" "speedrunning/crouchkickfix.cpp")
 
 target_link_libraries(roninsdk detours spdlog libcurl dbghelp wsock32 ws2_32 nlohmann_json::nlohmann_json)
 

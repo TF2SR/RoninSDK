@@ -1,8 +1,6 @@
 #include "sqfiles.h"
 #include "squirrelmanager.h"
 
-#define SAVE_FILE_DIR "./ronin/data"
-
 // Saves a file asynchronously.
 void SaveFileManager::SaveFileAsync(fs::path file, std::string contents)
 {

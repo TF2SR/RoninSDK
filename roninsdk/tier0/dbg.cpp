@@ -296,7 +296,7 @@ void CoreMsgV(LogType_t logType, LogLevel_t logLevel, eDLL_T context,
 	va_copy(argsCopy, args);
 	string formatted = FormatV(pszFormat, argsCopy);
 	if (formatted[formatted.length() - 1] == '\n')
-		formatted[formatted.length() - 1] = '\0';
+		formatted = formatted.substr(0, formatted.length() - 1);
 	va_end(argsCopy);
 
 	message.append(formatted);
