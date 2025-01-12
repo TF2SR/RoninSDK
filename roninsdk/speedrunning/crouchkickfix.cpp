@@ -62,7 +62,7 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 			jumpHitTime = real;
 			long sinceCrouch = real - crouchHolder.timestamp;
 			DevMsg(eDLL_T::RONIN_CKF, "jump %i sinceCrouch %i", real, sinceCrouch);
-			if (crouchHolder.waitingToSend && sinceCrouch <= 8000)
+			if (crouchHolder.waitingToSend && sinceCrouch <= CROUCHKICK_FIX_BUFFER_MICROSECONDS)
 			{
 				crouchHolder.Release();
 				DevMsg(eDLL_T::RONIN_CKF, ("crouchkick: " + std::to_string(sinceCrouch / 1000.0f) + "ms CROUCH IS EARLY\n").c_str());
@@ -80,7 +80,7 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 			crouchHitTime = real;
 			long sinceJump = real - jumpHolder.timestamp;
 			DevMsg(eDLL_T::RONIN_CKF, "crouch %i sinceJump", real);
-			if (jumpHolder.waitingToSend && sinceJump < 8000)
+			if (jumpHolder.waitingToSend && sinceJump < CROUCHKICK_FIX_BUFFER_MICROSECONDS)
 			{
 				jumpHolder.Release();
 				DevMsg(eDLL_T::RONIN_CKF, ("crouchkick: " + std::to_string(sinceJump / 1000.0f) + "ms JUMP IS EARLY\n").c_str());
@@ -126,7 +126,7 @@ void UpdateDetour()
 		long sinceJump = real - jumpHolder.timestamp;
 		DevMsg(eDLL_T::RONIN_CKF, "%i", sinceJump);
 
-		if (sinceJump > 8000) {
+		if (sinceJump > CROUCHKICK_FIX_BUFFER_MICROSECONDS) {
 			jumpHolder.Release();
 			jumpSentTime = real;
 
@@ -145,7 +145,7 @@ void UpdateDetour()
 		long sinceCrouch = real - crouchHolder.timestamp;
 		DevMsg(eDLL_T::RONIN_CKF, "%i", sinceCrouch);
 
-		if (sinceCrouch > 8000) {
+		if (sinceCrouch > CROUCHKICK_FIX_BUFFER_MICROSECONDS) {
 			crouchHolder.Release();
 
 			long long e = crouchHolder.timestamp - jumptime;

@@ -25,6 +25,12 @@ struct KeyInfo_t
 	unsigned char	m_bKeyDown : 1;
 };
 
+// was intended to be 8ms, but due to how fzzy
+// checked the timing (milliseconds rounded down)
+// then the buffer actually was 9ms long 
+// (because 8.99ms would get rounded down to 8ms, and therefore would be a ck)
+const int CROUCHKICK_FIX_BUFFER_MICROSECONDS = 9000;
+
 inline CMemory p_KeyInfoArray;
 inline auto v_KeyInfoArray = p_KeyInfoArray.RCast<KeyInfo_t*>();
 
