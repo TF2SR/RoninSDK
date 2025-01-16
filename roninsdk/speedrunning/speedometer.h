@@ -3,3 +3,4 @@
 #pragma once
 
 SQRESULT Script_Ronin_GetPlayerPlatformVelocity(HSquirrelVM* sqvm);
+SQRESULT Script_Ronin_AppendServerSquirrelBuffer(HSquirrelVM* sqvm);

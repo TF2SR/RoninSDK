@@ -238,6 +238,7 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 
 	if (context == ScriptContext::CLIENT)
 	{
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_AppendServerSquirrelBuffer", "void", "string buf", &Script_Ronin_AppendServerSquirrelBuffer);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
 			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_StartedWallrun", "Script_Ronin_StartedWallrun", "", "void", "", &Script_Ronin_StartedWallrun);

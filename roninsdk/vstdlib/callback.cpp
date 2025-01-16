@@ -38,6 +38,20 @@ void SQVM_ServerScript_f(const CCommand& args)
 
 /*
 =====================
+SQVM_ServerScript_f
+
+  Executes buffer on the
+  VM in SERVER context.
+  Set the buffer through Ronin_AppendServerSquirrelBuffer in CL script
+=====================
+*/
+void SQVM_ServerExecuteSqBuffer_f(const CCommand& args)
+{
+	g_pSQManager<ScriptContext::SERVER>->ExecuteBuffer(szServerSquirrelBuffer.c_str());
+}
+
+/*
+=====================
 SQVM_ClientScript_f
 
   Executes input on the

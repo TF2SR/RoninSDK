@@ -130,7 +130,11 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_force_moonboots", "0", FCVAR_NONE, "Forces moonboots", false, 0.f, false, 0.f, nullptr);
 
 	// IGT
+	ConVar::StaticCreate("igt_enable", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Enable Timer", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_run_ruleset", "normal", FCVAR_ARCHIVE_PLAYERPROFILE, "Run Ruleset", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_run_category", "any%", FCVAR_ARCHIVE_PLAYERPROFILE, "Run Category", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_run_ncs", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Enable NCS", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_18hr_skip", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Skip 18hr cutscene and add the time back", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_run_ended", "0", FCVAR_NONE, "Run Ended", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_should_load_backup", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Should Load Backup", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_bg_color", "30 30 30 255", FCVAR_ARCHIVE_PLAYERPROFILE, "BG color of timer", false, 0.f, false, 0.f, nullptr);
