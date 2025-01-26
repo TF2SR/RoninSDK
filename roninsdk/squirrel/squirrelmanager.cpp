@@ -235,6 +235,7 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 	g_pSQManager<context>->RegisterFunction(sqvm, "StringToAsset", "Script_StringToAsset", "Converts a string to an asset.", "asset", "string assetName", &SHARED::StringToAsset<context>);
 	g_pSQManager<context>->RegisterFunction(sqvm, "EncodeJSON", "Script_EncodeJSON", "Encodes a table into a JSON string", "string", "table t", &SHARED::Script_EncodeJSON<context>);
 	g_pSQManager<context>->RegisterFunction(sqvm, "DecodeJSON", "Script_DecodeJSON", "Decodes a JSON string into a table", "table", "string json", &SHARED::Script_DecodeJSON<context>);
+	g_pSQManager<context>->RegisterFunction(sqvm, "PrintEntityAddress", "Script_PrintEntityAddress", "PrintEntityAddress.", "void", "entity player", &SHARED::PrintEntityAddress<context>);
 
 	if (context == ScriptContext::CLIENT)
 	{
@@ -307,12 +308,18 @@ template<ScriptContext context> SQObject* SquirrelManager<context>::CreateScript
 	return v_sq_createscriptinstance<context>(ent);
 }
 
+template <ScriptContext context>
+void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
+{
+	SquirrelManager<context>::ExecuteBuffer(pszBuffer, true);
+}
+
 /// <summary>
 /// Finds and pushes a global squirrel function onto the stack.
 /// </summary>
 /// <param name="funcname">- The name of the function to look for.</param>
 template<ScriptContext context>
-void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
+void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer, bool printStuff)
 {
 	if (!m_pSQVM || !m_pSQVM->sqvm)
 	{
@@ -320,7 +327,8 @@ void SquirrelManager<context>::ExecuteBuffer(const char* pszBuffer)
 		return;
 	}
 
-	DevMsg(eDLL_T::ENGINE, "Executing %s script code: '%s'", SQ_GetContextName(context).c_str(), pszBuffer);
+	if (printStuff)
+		DevMsg(eDLL_T::ENGINE, "Executing %s script code: '%s'", SQ_GetContextName(context).c_str(), pszBuffer);
 
 	std::string strCode(pszBuffer);
 	SQBufferState bufferState = SQBufferState(strCode);

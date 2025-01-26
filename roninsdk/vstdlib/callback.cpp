@@ -47,7 +47,8 @@ SQVM_ServerScript_f
 */
 void SQVM_ServerExecuteSqBuffer_f(const CCommand& args)
 {
-	g_pSQManager<ScriptContext::SERVER>->ExecuteBuffer(szServerSquirrelBuffer.c_str());
+	g_pSQManager<ScriptContext::SERVER>->ExecuteBuffer(szServerSquirrelBuffer.c_str(), false);
+	szServerSquirrelBuffer = "";
 }
 
 /*

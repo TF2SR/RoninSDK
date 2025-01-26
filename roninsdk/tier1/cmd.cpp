@@ -105,7 +105,7 @@ void ConCommand::StaticInit(void)
 	ConCommand::StaticCreate("showconsole", "Show the console.", FCVAR_DONTRECORD, Con_ShowConsole_f, nullptr);
 	//-------------------------------------------------------------------------
 	// UI DLL                                                                 |
-	ConCommand::StaticCreate("script_ui", "Run input code as UI script on the VM.", FCVAR_CLIENTDLL | FCVAR_CHEAT, SQVM_UIScript_f, nullptr);
+	ConCommand::StaticCreate("script_ui", "Run input code as UI script on the VM.", FCVAR_CLIENTDLL, SQVM_UIScript_f, nullptr);
 }
 
 //-----------------------------------------------------------------------------

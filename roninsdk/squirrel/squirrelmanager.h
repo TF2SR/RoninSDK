@@ -67,6 +67,7 @@ public:
 	void SQVMDestroyed();
 
 	void ExecuteBuffer(const char* pszBuffer);
+	void ExecuteBuffer(const char* pszBuffer, bool printStuff);
 
 	bool fatalCompileErrors = true;
 	CSquirrelVM* m_pSQVM;

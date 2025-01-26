@@ -31,7 +31,9 @@ namespace SHARED
 	template<ScriptContext context>
 	SQRESULT PrintEntityAddress(HSquirrelVM* sqvm)
 	{
-		g_pSQManager<context>->PushAsset(sqvm, g_pSQManager<context>->GetString(sqvm, 1), -1);
+		CMemory player = CMemory(g_pSQManager<context>->GetEntity<void>(sqvm, 1));
+
+		DevMsg(eDLL_T::RONIN_GEN, "%p", g_pSQManager<context>->GetEntity<void>(sqvm, 1));
 		return SQRESULT_NOTNULL;
 	}
 }
