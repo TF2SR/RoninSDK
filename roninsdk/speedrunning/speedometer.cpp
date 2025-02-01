@@ -6,9 +6,21 @@
 SQRESULT Script_Ronin_GetPlayerPlatformVelocity(HSquirrelVM* sqvm)
 {
 	CMemory player = CMemory(g_pSQManager<ScriptContext::CLIENT>->GetEntity<void>(sqvm, 1));
-	uintptr_t platVelocityVector = player.Offset(0x380).GetPtr();
-	g_pSQManager<ScriptContext::CLIENT>->PushVector(sqvm, (const SQFloat*)platVelocityVector);
+	CMemory platVelocityVector = player.Offset(0x380);
+
+	// fixes platformvelocity being wrong when having 1024hu/s of platformvel in an axis
+	if (svPlayer && (fabs(player.Offset(0x380).GetValue<float>()) >= 1023 || fabs(player.Offset(0x384).GetValue<float>()) >= 1023))
+	{
+		platVelocityVector = svPlayer.Offset(0x41C).GetPtr();
+	}
+	g_pSQManager<ScriptContext::CLIENT>->PushVector(sqvm, (const SQFloat*)platVelocityVector.GetPtr());
 	return SQRESULT_NOTNULL;
+}
+
+SQRESULT Script_Ronin_SetServerPlayer(HSquirrelVM* sqvm)
+{
+	svPlayer = CMemory(g_pSQManager<ScriptContext::SERVER>->GetEntity<void>(sqvm, 1));
+	return SQRESULT_NULL;
 }
 
 SQRESULT Script_Ronin_AppendServerSquirrelBuffer(HSquirrelVM* sqvm)

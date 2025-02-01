@@ -264,7 +264,7 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 	else // if (context == ScriptContext::SERVER)
 	{
 		hasLevelEnded = false;
-		g_pSQManager<ScriptContext::SERVER>->RegisterFunction(sqvm, "Timer_SetCurrentStartPoint", "void", "int val", &Script_Timer_SetCurrentStartPoint);
+		g_pSQManager<ScriptContext::SERVER>->RegisterFunction(sqvm, "Ronin_SetServerPlayer", "void", "entity val", &Script_Ronin_SetServerPlayer);
 	}
 }
 
@@ -299,6 +299,10 @@ void SquirrelManager<context>::SQVMDestroyed()
 	if (context == ScriptContext::CLIENT && m_pSQVM->sqvm && PushFuncOntoStack("SaveFacts"))
 	{
 		SQRESULT result = g_pSQManager<ScriptContext::UI>->Call(m_pSQVM->sqvm, 0, false, true);
+	}
+	if (context == ScriptContext::SERVER)
+	{
+		svPlayer = nullptr;
 	}
 	m_pSQVM = nullptr;
 }

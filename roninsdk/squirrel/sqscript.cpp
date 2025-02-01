@@ -75,6 +75,7 @@ void VSQVM_SERVER::Attach(void) const
 {
 	DetourAttach((LPVOID*)&v_CSquirrelVM_Init<ScriptContext::SERVER>, &CSquirrelVM_Init<ScriptContext::SERVER>);
 	DetourAttach((LPVOID*)&v_SQCompiler_Create<ScriptContext::SERVER>, &SQCompiler_Create<ScriptContext::SERVER>);
+	DetourAttach((LPVOID*)&v_DestroyVM<ScriptContext::SERVER>, &DestroyVM<ScriptContext::SERVER>);
 }
 
 void VSQVM_SERVER::Detach(void) const
