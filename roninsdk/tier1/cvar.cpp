@@ -128,6 +128,7 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_enable_mp", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables Multiplayer button", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_practice_mode", "0", FCVAR_NONE, "Enables practice mode (sv_cheats 1)", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_force_moonboots", "0", FCVAR_NONE, "Forces moonboots", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("fps_scale", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "FPS counter scale", false, 0.f, false, 0.f, nullptr);
 
 	// IGT
 	ConVar::StaticCreate("igt_enable", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Enable Timer", false, 0.f, false, 0.f, nullptr);
