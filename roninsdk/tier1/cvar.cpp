@@ -140,6 +140,9 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("sp_currentstartpoint", "0", FCVAR_GAMEDLL | FCVAR_CHEAT, "Set to the current startpoint for progress", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_should_load_backup", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Should Load Backup", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_bg_color", "30 30 30 255", FCVAR_ARCHIVE_PLAYERPROFILE, "BG color of timer", false, 0.f, false, 0.f, nullptr);
+
+	// music
+	ConVar::StaticCreate("disable_music", "0", FCVAR_CHEAT, "Disables music", false, 0.f, false, 0.f, nullptr);
 }	
 
 //-----------------------------------------------------------------------------
