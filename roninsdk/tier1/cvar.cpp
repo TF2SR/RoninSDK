@@ -142,7 +142,7 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("igt_bg_color", "30 30 30 255", FCVAR_ARCHIVE_PLAYERPROFILE, "BG color of timer", false, 0.f, false, 0.f, nullptr);
 
 	// music
-	ConVar::StaticCreate("disable_music", "0", FCVAR_CHEAT, "Disables music", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("sp_music", "1", FCVAR_CHEAT, "Disables music", false, 0.f, false, 0.f, nullptr);
 }	
 
 //-----------------------------------------------------------------------------
