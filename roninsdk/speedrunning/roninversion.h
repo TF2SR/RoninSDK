@@ -1,2 +1,2 @@
 #pragma once
-constexpr char RONIN_VERSION[] = "1.0.2";
+constexpr char RONIN_VERSION[] = "DEV BUILD";
