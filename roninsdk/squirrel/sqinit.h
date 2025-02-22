@@ -1,6 +1,7 @@
 #pragma once
 
 #include "squirrel/sqclasstypes.h"
+#include "speedrunning/roninversion.h"
 
 
 namespace SHARED
@@ -11,7 +12,7 @@ namespace SHARED
 	template<ScriptContext context>
 	SQRESULT GetSdkVersion(HSquirrelVM* sqvm)
 	{
-		g_pSQManager<context>->PushString(sqvm, "0.0", 4);
+		g_pSQManager<context>->PushString(sqvm, RONIN_VERSION, strlen(RONIN_VERSION));
 		return SQRESULT_NOTNULL;
 	}
 
