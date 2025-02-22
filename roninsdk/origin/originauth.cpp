@@ -13,7 +13,7 @@ void Origin__AuthWithStryder(void* a1)
 {
 	//memset(g_psz3PToken, 0x0, 1024);
 	//strcpy(g_psz3PToken, ORIGIN_3PTOKEN_REPLACEMENT);
-	DevMsg(eDLL_T::RONIN_GEN, "AuthWithStryder");
+	//DevMsg(eDLL_T::RONIN_GEN, "AuthWithStryder");
 	v_Origin__AuthWithStryder(a1);
 }
 
