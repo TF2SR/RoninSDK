@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Setup MSVC (We love microsoft)
@@ -44,7 +44,7 @@ jobs:
           cd ronin-launcher
           zip --recurse-paths --quiet ../ronin-launcher.zip *
       - name: Ship It™
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body: | 
             :warning: These are development files! Ronin is to be downloaded [here](https://github.com/TF2SR/Ronin/releases/latest) :warning:
