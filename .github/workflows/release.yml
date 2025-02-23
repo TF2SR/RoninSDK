@@ -30,7 +30,6 @@ jobs:
             game/*.exe
             game/*.dll
   create-release:
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: build-launcher
     runs-on: ubuntu-22.04
     steps:
