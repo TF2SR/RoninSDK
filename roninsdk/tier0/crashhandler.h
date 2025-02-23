@@ -55,6 +55,8 @@ public:
 	void GetCallStack();
 	void WriteFile();
 
+	void DumpSQState();
+
 	void CreateMessageProcess();
 
 private:

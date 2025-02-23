@@ -40,6 +40,10 @@ template<ScriptContext context>
 inline CMemory p_sq_newarray;
 template<ScriptContext context>
 inline auto v_sq_newarray = p_sq_newarray<context>.RCast<void(*)(HSquirrelVM* sqvm, SQInteger iStackpos)>();
+template<ScriptContext context>	
+inline CMemory p_sq_stackinfos;
+template<ScriptContext context>
+inline auto v_sq_stackinfos = p_sq_stackinfos<context>.RCast<long long(*)(HSquirrelVM * sqvm, int iLevel, SQStackInfos * pOutObj, int iCallStackSize)>();
 
 template<ScriptContext context>
 inline CMemory p_sq_arrayappend;

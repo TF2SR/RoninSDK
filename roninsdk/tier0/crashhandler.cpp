@@ -8,6 +8,7 @@
 #include "tier0/cpu.h"
 #include "tier0/crashhandler.h"
 #include "public/utility/binstream.h"
+#include "squirrel/squirrelmanager.h"
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -586,11 +587,10 @@ long __stdcall BottomLevelExceptionFilter(EXCEPTION_POINTERS* pExceptionInfo)
 	// Kill on recursive call.
 	if (g_CrashHandler->GetState())
 	{
-		// Shutdown SpdLog to flush all buffers.
-		SpdLog_Shutdown();
 		ExitProcess(1u);
 	}
 
+	SpdLog_Shutdown();
 	g_CrashHandler->SetState(true);
 
 	g_CrashHandler->FormatCrash();
@@ -599,6 +599,7 @@ long __stdcall BottomLevelExceptionFilter(EXCEPTION_POINTERS* pExceptionInfo)
 	g_CrashHandler->FormatModules();
 	g_CrashHandler->FormatSystemInfo();
 	g_CrashHandler->FormatBuildInfo();
+	g_CrashHandler->DumpSQState();
 
 	g_CrashHandler->WriteFile();
 	g_CrashHandler->CreateMessageProcess(); // Display the message to the user.
@@ -607,6 +608,26 @@ long __stdcall BottomLevelExceptionFilter(EXCEPTION_POINTERS* pExceptionInfo)
 	g_CrashHandler->Unlock();
 
 	return EXCEPTION_EXECUTE_HANDLER;
+}
+
+void CCrashHandler::DumpSQState()
+{
+	if (g_pSQManager<ScriptContext::UI>->m_pSQVM && g_pSQManager<ScriptContext::UI>->m_pSQVM->sqvm && g_pSQManager<ScriptContext::UI>->m_pSQVM->sqvm->_callstacksize > 0)
+	{
+		m_svBuffer.append("ui script:");
+		SQStackInfos* stackInfo = g_pSQManager<ScriptContext::UI>->GetStackInfos(1);
+		m_svBuffer.append(Format("FILE: %s | LINE: %d\n", stackInfo->_sourceName, stackInfo->_line));
+		stackInfo = g_pSQManager<ScriptContext::UI>->GetStackInfos(2);
+		m_svBuffer.append(Format("FILE: %s | LINE: %d\n", stackInfo->_sourceName, stackInfo->_line));
+	}
+	if (g_pSQManager<ScriptContext::CLIENT>->m_pSQVM && g_pSQManager<ScriptContext::CLIENT>->m_pSQVM->sqvm && g_pSQManager<ScriptContext::CLIENT>->m_pSQVM->sqvm->_callstacksize > 0)
+	{
+		m_svBuffer.append("client script:");
+		SQStackInfos* stackInfo = g_pSQManager<ScriptContext::UI>->GetStackInfos(1);
+		m_svBuffer.append(Format("FILE: %s | LINE: %d", stackInfo->_sourceName, stackInfo->_line));
+		stackInfo = g_pSQManager<ScriptContext::UI>->GetStackInfos(2);
+		m_svBuffer.append(Format("FILE: %s | LINE: %d", stackInfo->_sourceName, stackInfo->_line));
+	}
 }
 
 //-----------------------------------------------------------------------------
