@@ -1,0 +1,53 @@
+name: Build
+on:
+  push:
+    tags:
+      - '**'
+env:
+  BUILD_PROFILE: Release
+  RONIN_VERSION: ${{ github.ref_name }}
+jobs:
+  build-launcher:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Setup MSVC (We love microsoft)
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Configure CMake
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE:STRING="Release"
+      - name: Change RONIN_VERSION to tag title
+        run: sed -i 's/DEV BUILD/${{ env.RONIN_VERSION }}/g' roninsdk/speedrunning/roninversion.h
+      - name: Build!
+        run: cmake build --build
+      - name: Upload build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ronin-launcher
+          path: |
+            game/*.exe
+            game/*.dll
+  create-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-launcher
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get It™
+        uses: actions/download-artifact@v4
+        with:
+          name: ronin-launcher
+          path: ronin-launcher
+      - name: Zip It™
+        run: |
+          cd ronin-launcher
+          zip --recurse-paths --quiet ../ronin-launcher.zip *
+      - name: Ship It™
+        uses: softprops/action-gh-release@v1
+        with:
+          body: | 
+            :warning: These are development files! Ronin is to be downloaded [here](https://github.com/TF2SR/Ronin/releases/latest) :warning:
+            ... [GET OUT](https://www.youtube.com/watch?v=ETo5l_RFgPY)
+          draft: false
+          files: ronin-launcher.zip
