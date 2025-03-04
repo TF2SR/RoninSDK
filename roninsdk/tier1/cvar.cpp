@@ -146,6 +146,10 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("igt_should_load_backup", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Should Load Backup", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("igt_bg_color", "30 30 30 255", FCVAR_ARCHIVE_PLAYERPROFILE, "BG color of timer", false, 0.f, false, 0.f, nullptr);
 
+	ConVar::StaticCreate("igt_subsplit_enable", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables IL Subsplit Popup", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_subsplit_height", "-200", FCVAR_ARCHIVE_PLAYERPROFILE, "Height of popup from center of screen", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("igt_subsplit_duration", "3", FCVAR_ARCHIVE_PLAYERPROFILE, "Subsplit Popup Duration", false, 0.f, false, 0.f, nullptr);
+
 	// music
 	ConVar::StaticCreate("sp_music", "1", FCVAR_CHEAT, "Disables music", false, 0.f, false, 0.f, nullptr);
 }	
