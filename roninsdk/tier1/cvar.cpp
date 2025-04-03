@@ -101,7 +101,7 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_enable_speedometer", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables Speedometer", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_unit", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Unit for Speedometer", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_axismode", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Axis Mode for Speedometer", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_decimals", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Decimal Digits for Speedometer", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_decimals", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Decimal Digits for Speedometer", true, 0.f, false, 0.f, nullptr);
 
 	// speedometer customization
 	ConVar::StaticCreate("srm_speedometer_position_x", "0.6", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer x Position", false, 0.f, false, 0.f, nullptr);
