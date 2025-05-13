@@ -131,6 +131,8 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_force_moonboots", "0", FCVAR_NONE, "Forces moonboots", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("fps_scale", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "FPS counter scale", false, 0.f, false, 0.f, nullptr);
 
+	ConVar::StaticCreate("ronin_velocitysave", "0", FCVAR_CHEAT, "Allows quicksave loads to retain velocity (NCS broke)", false, 0.f, false, 0.f, nullptr);
+
 	// strafemeter
 	ConVar::StaticCreate("dq_strafemeter_position", "0.6 0.56 0.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Strafemeter Position", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("dq_strafemeter_enabled", "0.0", FCVAR_CHEAT, "Enables Strafemeter", false, 0.f, false, 0.f, nullptr);
