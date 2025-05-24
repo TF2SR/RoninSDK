@@ -18,7 +18,9 @@ void SpdLog_Init(void)
 	}
 
 #ifndef NETCONSOLE
-	g_LogSessionDirectory = fmt::format("ronin\\logs\\{:s}", g_ProcessTimestamp);
+	char appdata[MAX_PATH];
+	GetEnvironmentVariableA("APPDATA", appdata, MAX_PATH);
+	g_LogSessionDirectory = fmt::format("{:s}\\ronin\\logs\\{:s}", appdata, g_ProcessTimestamp);
 	/************************
 	 * GAME CONSOLE LOGGER SETUP   *
 	 ************************/
