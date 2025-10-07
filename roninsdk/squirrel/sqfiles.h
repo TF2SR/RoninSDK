@@ -1,7 +1,8 @@
 #pragma once
 #include "squirrel/sqclasstypes.h"
+#include "core/stdafx.h"
 
-inline const char* SAVE_FILE_DIR = "./ronin/data";
+inline string SAVE_FILE_DIR;
 
 struct FileResults
 {
@@ -12,6 +13,7 @@ struct FileResults
 class SaveFileManager
 {
 public:
+	SaveFileManager();
 	void SaveFileAsync(fs::path file, std::string content);
 	void LoadFileAsync(fs::path file);
 	void DeleteFileAsync(fs::path file);
