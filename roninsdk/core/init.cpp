@@ -51,6 +51,8 @@
 #include "speedrunning/modtimer.h"
 #include "speedrunning/crouchkickfix.h"
 
+#include "speedrunning/demofixes.h"
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // ██╗███╗   ██╗██╗████████╗██╗ █████╗ ██╗     ██╗███████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
@@ -391,4 +393,7 @@ void DetourRegister() // Register detour classes to be searched and hooked.
 	// CKF
 	REGISTER(inputsystem.dll, VInputSystemHooksCKF);
 	REGISTER(engine.dll, VEngineHooksCKF);
+
+  // demo fix
+  REGISTER(engine.dll, VEngineDemoFixes);
 }

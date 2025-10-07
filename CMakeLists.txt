@@ -26,16 +26,16 @@ set(USE_LIBIDN2 OFF)
 add_subdirectory("thirdparty/detours")
 
 FetchContent_Declare(
-	curl
-	GIT_REPOSITORY https://github.com/curl/curl.git
-	GIT_TAG 83bedbd730d62b83744cc26fa0433d3f6e2e4cd6
+ curl
+ GIT_REPOSITORY https://github.com/curl/curl.git
+ GIT_TAG 83bedbd730d62b83744cc26fa0433d3f6e2e4cd6
 )
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
 
 FetchContent_Declare(
-	spdlog
-	GIT_REPOSITORY https://github.com/gabime/spdlog.git
-	GIT_TAG 27cb4c76708608465c413f6d0e6b8d99a4d84302 # 1.14.1
+ spdlog
+ GIT_REPOSITORY https://github.com/gabime/spdlog.git
+ GIT_TAG 27cb4c76708608465c413f6d0e6b8d99a4d84302 # 1.14.1
 )
 
 FetchContent_MakeAvailable(curl json spdlog)

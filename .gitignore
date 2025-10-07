@@ -4,3 +4,6 @@ out
 game
 build
 CMakeUserPresets.json
+.clangd
+compile_commands.json
+.cache
