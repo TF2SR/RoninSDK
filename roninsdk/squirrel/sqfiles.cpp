@@ -1,6 +1,18 @@
 #include "sqfiles.h"
 #include "squirrelmanager.h"
 
+SaveFileManager::SaveFileManager() {
+	char appdata[MAX_PATH];
+	GetEnvironmentVariableA("APPDATA", appdata, MAX_PATH);
+	SAVE_FILE_DIR = fmt::format("{:s}/ronin", appdata);
+
+	// old save data location, move everything!!!
+	if(fs::exists("./ronin/data")) {
+		fs::copy("./ronin/data", SAVE_FILE_DIR, std::filesystem::copy_options::recursive);
+		fs::remove_all("./ronin/data");
+	}
+}
+
 // Saves a file asynchronously.
 void SaveFileManager::SaveFileAsync(fs::path file, std::string contents)
 {
@@ -164,7 +176,7 @@ SQRESULT Script_FileExists(HSquirrelVM* sqvm)
 
 SQRESULT Script_DeleteFile(HSquirrelVM* sqvm)
 {
-	fs::path path = "./ronin/data";
+	fs::path path = SAVE_FILE_DIR;
 	path.append(g_pSQManager<ScriptContext::UI>->GetString(sqvm, 1));
 	
 	g_pSaveFileManager->DeleteFileAsync(path);
@@ -175,7 +187,7 @@ SQRESULT Script_DeleteFile(HSquirrelVM* sqvm)
 // returns if we have finished reading a file's contents
 SQRESULT Script_IsFileReady(HSquirrelVM* sqvm)
 {
-	fs::path path = "./ronin/data";
+	fs::path path = SAVE_FILE_DIR;
 	path.append(g_pSQManager<ScriptContext::UI>->GetString(sqvm, 1));
 
 	if (g_pSaveFileManager->resultsMap.find(path) == g_pSaveFileManager->resultsMap.end())
@@ -194,7 +206,7 @@ SQRESULT Script_IsFileReady(HSquirrelVM* sqvm)
 // to be read!
 SQRESULT Script_GetFileResults(HSquirrelVM* sqvm)
 {
-	fs::path path = "./ronin/data";
+	fs::path path = SAVE_FILE_DIR;
 	path.append(g_pSQManager<ScriptContext::UI>->GetString(sqvm, 1));
 
 	if (g_pSaveFileManager->resultsMap.find(path) == g_pSaveFileManager->resultsMap.end())
