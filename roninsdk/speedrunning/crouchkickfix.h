@@ -158,7 +158,7 @@ inline SQRESULT Script_Ronin_AppendWallrun(HSquirrelVM* sqvm)
 
 	std::string data = sstream.str();
 
-	fs::path path = SAVE_FILE_DIR;
+	fs::path path = g_saveFileDir;
 	path.append("ckdata.csv");
 
 	auto mutex = std::ref(g_pSaveFileManager->mutexMap[path]);
