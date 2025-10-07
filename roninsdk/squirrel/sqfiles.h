@@ -2,7 +2,7 @@
 #include "squirrel/sqclasstypes.h"
 #include "core/stdafx.h"
 
-inline string SAVE_FILE_DIR;
+inline string g_saveFileDir;
 
 struct FileResults
 {
