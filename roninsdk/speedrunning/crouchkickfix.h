@@ -45,7 +45,7 @@ inline long long jumpHitTime = 0;
 inline long long crouchHitTime = 0;
 inline long long jumpSentTime = 0;
 
-inline const int BUTTON_CODE_COUNT = 153;
+inline const int BUTTON_CODE_COUNT = 255;
 
 struct InputHolder {
 	void* thisObject;
