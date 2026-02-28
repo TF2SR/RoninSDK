@@ -43,3 +43,12 @@ SQRESULT Script_Ronin_AppendServerSquirrelBuffer(HSquirrelVM* sqvm)
 	szServerSquirrelBuffer += stringStream.str() + "\n";
 	return SQRESULT_NOTNULL;
 }
+
+SQRESULT Script_Ronin_GetLastWallNormal(HSquirrelVM* sqvm)
+{
+	CMemory player = CMemory(g_pSQManager<ScriptContext::CLIENT>->GetEntity<void>(sqvm, 1));
+	CMemory wallNormalVector = player.Offset(0x2BA0);
+
+	g_pSQManager<ScriptContext::CLIENT>->PushVector(sqvm, (const SQFloat*)wallNormalVector.GetPtr());
+	return SQRESULT_NOTNULL;
+}

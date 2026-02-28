@@ -28,6 +28,11 @@ void FindBinds()
 			DevMsg(eDLL_T::RONIN_CKF, "pushing %i into jumpCodes", i);
 			jumpCodes.push_back(i);
 		}
+		else if (strcmp(bind, "+ability 4") == 0) // jump bind
+		{
+			DevMsg(eDLL_T::RONIN_CKF, "pushing %i into jumpCodes", i);
+			jumpCodes.push_back(i);
+		}
 		else if (strcmp(bind, "+duck") == 0)
 		{
 			DevMsg(eDLL_T::RONIN_CKF, "pushing %i into crouchCodes", i);

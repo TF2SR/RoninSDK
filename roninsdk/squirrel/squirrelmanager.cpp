@@ -242,6 +242,9 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_AppendServerSquirrelBuffer", "void", "string buf", &Script_Ronin_AppendServerSquirrelBuffer);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetPlayerPlatformVelocity",
 			"Script_Ronin_GetPlayerPlatformVelocity", "Gets player platform velocity.", "vector", "entity player", &Script_Ronin_GetPlayerPlatformVelocity);
+		// Script_Ronin_GetLastWallNormal
+		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_GetLastWallNormal",
+			"Script_Ronin_GetLastWallNormal", "Gets player last wall normal.", "vector", "entity player", &Script_Ronin_GetLastWallNormal);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_StartedWallrun", "Script_Ronin_StartedWallrun", "", "void", "", &Script_Ronin_StartedWallrun);
 		g_pSQManager<ScriptContext::CLIENT>->RegisterFunction(sqvm, "Ronin_AppendWallrun", "Script_Ronin_AppendWallrun", "", 
 			"void", "float speedGained, int frameJumpedOff, float frameRate", &Script_Ronin_AppendWallrun); // Script_Ronin_GetWallkickTiming
