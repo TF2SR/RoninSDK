@@ -385,7 +385,7 @@ void CreateDirectories(string svInput, string* pszOutput, bool bWindows)
 
     if (pszOutput)
     {
-        *pszOutput = fspPathOut.u8string();
+        *pszOutput = fspPathOut.string();
     }
 
     fspPathOut = fspPathOut.parent_path();

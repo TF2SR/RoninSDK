@@ -1,6 +1,7 @@
 #pragma once
 
 #include "squirrel/sqclasstypes.h"
+#include "squirrel/squirrelmanager.h"
 #include "speedrunning/roninversion.h"
 
 
