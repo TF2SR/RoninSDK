@@ -17,13 +17,13 @@ void* CFPSPanel_Paint(void* self)
 		vgui::HFont largeFont = *((char*)self + 616);
 
 		bool bIsSafe = strncmp(g_psz3PToken, ORIGIN_3PTOKEN_REPLACEMENT, sizeof(ORIGIN_3PTOKEN_REPLACEMENT)) == 0;
-		g_pMatSystemSurface->DrawColoredText(smallFont, 5, 5, 255, 255, 255, 255, "3PToken safety: ");
+		g_pMatSystemSurface->DrawColoredText(smallFont, 5, 5, 255, 255, 255, 255, strdup("3PToken safety: "));
 		if( bIsSafe)
-			g_pMatSystemSurface->DrawColoredText(smallFont, 100, 5, 0, 255, 0, 255, "safe");
+			g_pMatSystemSurface->DrawColoredText(smallFont, 100, 5, 0, 255, 0, 255, strdup("safe"));
 		else
-			g_pMatSystemSurface->DrawColoredText(smallFont, 100, 5, 255, 0, 0, 255, "unsafe");
+			g_pMatSystemSurface->DrawColoredText(smallFont, 100, 5, 255, 0, 0, 255, strdup("unsafe"));
 
-		g_pMatSystemSurface->DrawColoredText(smallFont, 5, 17, 255, 255, 255, 255, "UserId: %s", g_pszLocalPlayerUserID);
+		g_pMatSystemSurface->DrawColoredText(smallFont, 5, 17, 255, 255, 255, 255, strdup("UserId: %s"), g_pszLocalPlayerUserID);
 
 		//Vector3D origin;
 		//QAngle angle;

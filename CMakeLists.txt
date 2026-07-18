@@ -4,7 +4,7 @@ include(FetchContent)
 
 project ("roninsdk")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_VS_PLATFORM_TOOLSET v143)
@@ -25,6 +25,7 @@ set(USE_LIBIDN2 OFF)
 
 add_subdirectory("thirdparty/detours")
 
+
 FetchContent_Declare(
 	curl
 	GIT_REPOSITORY https://github.com/curl/curl.git
@@ -38,4 +39,31 @@ FetchContent_Declare(
 	GIT_TAG 27cb4c76708608465c413f6d0e6b8d99a4d84302 # 1.14.1
 )
 
-FetchContent_MakeAvailable(curl json spdlog)
+set(NS_BINARY_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+FetchContent_Declare(
+    wsock_proxy
+    GIT_REPOSITORY https://github.com/R2Northstar/NorthstarLauncher.git
+    GIT_TAG 48f35600771b1631aa7980642816e916cbb2213f
+    SOURCE_SUBDIR primedev/wsockproxy
+)
+
+FetchContent_Declare(
+    shim
+    GIT_REPOSITORY https://codeberg.org/Jan200101/ns-ronin-shim.git
+    GIT_TAG d2a5247975ac238ca5a18fb7b0f4f1bba4c303bd
+)
+
+FetchContent_Declare(
+    minhook
+    GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
+    GIT_TAG 0f25a2449b3cf878bcbdbf91b693c38149ecf029
+    FIND_PACKAGE_ARGS
+)
+
+FetchContent_MakeAvailable(curl json spdlog minhook wsock_proxy shim)
+
+set_target_properties(
+    shim
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ronin
+)
