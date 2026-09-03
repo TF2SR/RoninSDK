@@ -26,6 +26,7 @@ extern ICvar* g_pCVar;
 //-------------------------------------------------------------------------
 // CLIENT                                                                 |
 extern ConVar* cl_showsdkdbg;
+extern ConVar* Cvar_enable_debug_overlays;
 
 //#include "vstdlib/concommandhash.h"
 

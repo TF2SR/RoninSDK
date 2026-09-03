@@ -20,6 +20,7 @@ ICvar* g_pCVar = nullptr;
 //-------------------------------------------------------------------------
 // CLIENT                                                                 |
 ConVar* cl_showsdkdbg = nullptr;
+ConVar* Cvar_enable_debug_overlays = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -92,6 +93,7 @@ void ConVar::StaticInit(void)
 	//-------------------------------------------------------------------------
 	// CLIENT                                                                 |
 	cl_showsdkdbg = ConVar::StaticCreate("cl_showsdkdbg", "0", FCVAR_DONTRECORD, "Show the sdk debug panel", false, 0.f, false, 0.f, nullptr);
+	Cvar_enable_debug_overlays = ConVar::StaticCreate("enable_debug_overlays", "0", FCVAR_CHEAT, "Show DEBUG OVERLAYS", false, 0.f, false, 0.f, nullptr);
 
 	//-----------------------------------------------------------------------------
 	// RoninScripts
@@ -116,6 +118,12 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_speedometer_color_fast_b", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast blue color", false, 0.f, false, 0.f, nullptr);
 	
 	ConVar::StaticCreate("srm_speedometer_alpha", "1.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer alpha", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_outline_alpha", "0.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline alpha", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_outline_thickness", "1.5", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline thickness", false, 0.f, false, 0.f, nullptr);
+
+	ConVar::StaticCreate("srm_speedometer_size", "45", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer size", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_slow", "300", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow threshold", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_fast", "1000", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast threshold", false, 0.f, false, 0.f, nullptr);
 
 	// input display
 	ConVar::StaticCreate("srm_input_display", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables Input Display", false, 0.f, false, 0.f, nullptr);
