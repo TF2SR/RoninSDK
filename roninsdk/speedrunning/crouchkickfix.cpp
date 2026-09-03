@@ -56,6 +56,7 @@ long long jumptime;
 long long crouchtime;
 void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int data1, int data2, int data3)
 {
+	bool callOriginal = true;
 	struct timespec ts;
 	timespec_get(&ts, TIME_UTC);
 	long long real = (ts.tv_nsec / 1000) + (ts.tv_sec * 1000000);
@@ -66,7 +67,7 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 		{
 			jumpHitTime = real;
 			long sinceCrouch = real - crouchHolder.timestamp;
-			DevMsg(eDLL_T::RONIN_CKF, "jump %i sinceCrouch %i", real, sinceCrouch);
+			//DevMsg(eDLL_T::RONIN_CKF, "jump %i sinceCrouch %i", real, sinceCrouch);
 			if (crouchHolder.waitingToSend && sinceCrouch <= CROUCHKICK_FIX_BUFFER_MICROSECONDS)
 			{
 				crouchHolder.Release();
@@ -77,14 +78,14 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 			{
 				jumpHolder.Hold(thisObject, nType, nTick, data1, data2, data3);
 				jumpHolder.timestamp = real;
-				return;
+				callOriginal = false;
 			}
 		}
 		else if (std::find(crouchCodes.begin(), crouchCodes.end(), data1) != crouchCodes.end() && !crouchHolder.waitingToSend)
 		{
 			crouchHitTime = real;
 			long sinceJump = real - jumpHolder.timestamp;
-			DevMsg(eDLL_T::RONIN_CKF, "crouch %i sinceJump", real);
+			//DevMsg(eDLL_T::RONIN_CKF, "crouch %i sinceJump", real);
 			if (jumpHolder.waitingToSend && sinceJump < CROUCHKICK_FIX_BUFFER_MICROSECONDS)
 			{
 				jumpHolder.Release();
@@ -95,7 +96,7 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 			{
 				crouchHolder.Hold(thisObject, nType, nTick, data1, data2, data3);
 				crouchHolder.timestamp = real;
-				return;
+				callOriginal = false;
 			}
 		}
 	}
@@ -105,6 +106,7 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 		{
 			if (crouchHolder.waitingToSend)
 			{
+				DevMsg(eDLL_T::RONIN_CKF, "JUMP RELEASED IN LESS THAN 8MS? PING ELAD!");
 				crouchHolder.Release();
 			}
 		}
@@ -112,11 +114,13 @@ void PostEventDetour(void* thisObject, InputEventType_t nType, int nTick, int da
 		{
 			if (jumpHolder.waitingToSend)
 			{
+				DevMsg(eDLL_T::RONIN_CKF, "JUMP RELEASED IN LESS THAN 8MS? PING ELAD!");
 				jumpHolder.Release();
 			}
 		}
 	}
-	v_CInputSystem__PostEvent(thisObject, nType, nTick, data1, data2, data3);
+	if (callOriginal)
+		v_CInputSystem__PostEvent(thisObject, nType, nTick, data1, data2, data3);
 }
 
 void UpdateDetour()

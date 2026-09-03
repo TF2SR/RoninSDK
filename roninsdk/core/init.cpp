@@ -50,6 +50,7 @@
 #include "squirrel/sqfiles.h"
 #include "speedrunning/modtimer.h"
 #include "speedrunning/crouchkickfix.h"
+#include "engine/client/debugoverlays.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -354,6 +355,7 @@ void DetourRegister() // Register detour classes to be searched and hooked.
 
 	REGISTER(engine.dll, VEngineServer);
 	REGISTER(engine.dll, VClient);
+	REGISTER(engine.dll, VDebugOverlays);
 	REGISTER(engine.dll, VOrigin);
 
 	// Client
