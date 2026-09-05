@@ -103,27 +103,40 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_enable_speedometer", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables Speedometer", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_unit", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Unit for Speedometer", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_axismode", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Axis Mode for Speedometer", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_decimals", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Decimal Digits for Speedometer", true, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_decimals", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Decimal Digits for Speedometer", true, 0.f, false, 0.f, nullptr);
 
 	// speedometer customization
 	ConVar::StaticCreate("srm_speedometer_position_x", "0.6", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer x Position", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_position_y", "0.48", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer y position", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_position_y", "0.5", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer y position", false, 0.f, false, 0.f, nullptr);
 
-	ConVar::StaticCreate("srm_speedometer_color_slow_r", "255", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow red color", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_color_slow_g", "255", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow green color", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_color_slow_b", "255", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow blue color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_slow_r", "30", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow red color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_slow_g", "62", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow green color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_slow_b", "248", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow blue color", false, 0.f, false, 0.f, nullptr);
 
-	ConVar::StaticCreate("srm_speedometer_color_fast_r", "255", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast red color", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_color_fast_g", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast green color", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_color_fast_b", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast blue color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_fast_r", "225", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast red color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_fast_g", "25", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast green color", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_color_fast_b", "16", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast blue color", false, 0.f, false, 0.f, nullptr);
 	
 	ConVar::StaticCreate("srm_speedometer_alpha", "1.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer alpha", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_outline_alpha", "0.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline alpha", false, 0.f, false, 0.f, nullptr);
-	ConVar::StaticCreate("srm_speedometer_outline_thickness", "1.5", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline thickness", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_outline_alpha", "1.0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline alpha", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_outline_thickness", "2", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer outline thickness", false, 0.f, false, 0.f, nullptr);
 
 	ConVar::StaticCreate("srm_speedometer_size", "45", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer size", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_slow", "300", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer slow threshold", false, 0.f, false, 0.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_fast", "1000", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer fast threshold", false, 0.f, false, 0.f, nullptr);
+
+	ConVar::StaticCreate("srm_speedometer_ulabel_text", "", FCVAR_ARCHIVE_PLAYERPROFILE, "Custom unit label content (leave empty for default)", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_ulabel_distance", "1.8", FCVAR_ARCHIVE_PLAYERPROFILE, "Unit label distance", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_ulabel_size", "0.5", FCVAR_ARCHIVE_PLAYERPROFILE, "Size multiplier for the unit label. 1 = 100% (same size), 0 = 0% (infinitely small)", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_alignment", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer text alignment direction. 0 = left, 1 = middle, 2 = right", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_font", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Speedometer font. 0 = Arame Mono, 1 = Metronic Pro", false, 0.f, false, 0.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_decimals_size", "0.66", FCVAR_ARCHIVE_PLAYERPROFILE, "Size multiplier for the decimal digits. 1 = 100% (same size), 0 = 0% (infinitely small)", true, 0.f, false, 1.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_decimals_space", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Add spacing between the value and it's decimals.", true, 0.f, false, 1.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_thickness", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Makes your speedometer THICK. 0 = no additional thickening. X = X pixels(ish) of additional thickness.", true, 0.f, false, 1.f, nullptr);
+
+
+	// trigger display
+	ConVar::StaticCreate("ronin_triggerdisplay", "0", FCVAR_CHEAT, "Show triggers around the level", false, 0.f, false, 0.f, nullptr);
 
 	// input display
 	ConVar::StaticCreate("srm_input_display", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Enables Input Display", false, 0.f, false, 0.f, nullptr);
