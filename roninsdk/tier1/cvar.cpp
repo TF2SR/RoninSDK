@@ -133,6 +133,7 @@ void ConVar::StaticInit(void)
 	ConVar::StaticCreate("srm_speedometer_decimals_size", "0.66", FCVAR_ARCHIVE_PLAYERPROFILE, "Size multiplier for the decimal digits. 1 = 100% (same size), 0 = 0% (infinitely small)", true, 0.f, false, 1.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_decimals_space", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Add spacing between the value and it's decimals.", true, 0.f, false, 1.f, nullptr);
 	ConVar::StaticCreate("srm_speedometer_thickness", "0", FCVAR_ARCHIVE_PLAYERPROFILE, "Makes your speedometer THICK. 0 = no additional thickening. X = X pixels(ish) of additional thickness.", true, 0.f, false, 1.f, nullptr);
+	ConVar::StaticCreate("srm_speedometer_wowowowow", "1", FCVAR_ARCHIVE_PLAYERPROFILE, "Rewards high speeds.", true, 0.f, false, 1.f, nullptr);
 
 
 	// trigger display
