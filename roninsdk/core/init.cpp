@@ -35,6 +35,7 @@
 #include "vguimatsurface/MatSystemSurface.h"
 // filesystem_stdio
 #include "filesystem/basefilesystem.h"
+#include "filesystem/rpakfilesystem.h"
 
 // Squirrel
 #include "squirrel/client/sqvm.h"
@@ -357,6 +358,7 @@ void DetourRegister() // Register detour classes to be searched and hooked.
 	REGISTER(engine.dll, VClient);
 	REGISTER(engine.dll, VDebugOverlays);
 	REGISTER(engine.dll, VOrigin);
+	REGISTER(engine.dll, VRPakFileSystem);
 
 	// Client
 	REGISTER(client.dll, VConsoleDialog);

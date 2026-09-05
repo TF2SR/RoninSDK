@@ -199,6 +199,8 @@ typedef int bool;       // we want to use bool in our C programs
 #define __PAIR64__(high, low)   (((uint64) (high) << 32) | (uint32)(low))
 #define __PAIR128__(high, low)  (((uint128)(high) << 64) | (uint64)(low))
 
+#define STR_HASH(s) (std::hash<std::string>()(s))
+
 // Helper functions to represent some assembly instructions.
 
 #ifdef __cplusplus
