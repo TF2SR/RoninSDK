@@ -29,6 +29,8 @@ jobs:
           path: |
             game/*.exe
             game/*.dll
+            game/bin/x64_retail/wsock32.dll
+            game/ronin/Northstar.dll
   create-release:
     needs: build-launcher
     runs-on: ubuntu-22.04
@@ -41,7 +43,7 @@ jobs:
       - name: Zip It™
         run: |
           cd ronin-launcher
-          zip --recurse-paths --quiet ../ronin-launcher.zip *
+          zip --recurse-paths --quiet ../ronin-launcher.${{ env.RONIN_VERSION }}.zip *
       - name: Ship It™
         uses: softprops/action-gh-release@v2
         with:
@@ -49,4 +51,4 @@ jobs:
             :warning: These are development files! Ronin is to be downloaded [here](https://github.com/TF2SR/Ronin/releases/latest) :warning:
             ... [GET OUT](https://www.youtube.com/watch?v=ETo5l_RFgPY)
           draft: false
-          files: ronin-launcher.zip
+          files: ronin-launcher.${{ env.RONIN_VERSION }}.zip
