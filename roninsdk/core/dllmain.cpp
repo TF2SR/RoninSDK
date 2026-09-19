@@ -5,6 +5,7 @@
 
 #include "windows/console.h"
 #include "windows/loadlibrary.h"
+#include "speedrunning/updatechecker.h"
 
 void SDK_Init()
 {
@@ -36,6 +37,7 @@ void SDK_Init()
 
 void SDK_Shutdown()
 {
+    UpdateChecker_Shutdown();
     Console_Shutdown();
     SpdLog_Shutdown();
 

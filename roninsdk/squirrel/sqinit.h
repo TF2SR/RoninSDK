@@ -3,6 +3,7 @@
 #include "squirrel/sqclasstypes.h"
 #include "squirrel/squirrelmanager.h"
 #include "speedrunning/roninversion.h"
+#include "speedrunning/updatechecker.h"
 
 
 namespace SHARED
@@ -47,4 +48,23 @@ namespace CLIENT
 }
 namespace UI
 {
+	inline SQRESULT CheckForUpdates(HSquirrelVM* sqvm)
+	{
+		UpdateChecker_Start();
+		return SQRESULT_NULL;
+	}
+
+	inline SQRESULT GetUpdateState(HSquirrelVM* sqvm)
+	{
+		const char* state = UpdateChecker_Poll();
+		g_pSQManager<ScriptContext::UI>->PushString(sqvm, state, -1);
+		return SQRESULT_NOTNULL;
+	}
+
+	inline SQRESULT GetLatestVersion(HSquirrelVM* sqvm)
+	{
+		const auto& version = UpdateChecker_LatestVersion();
+		g_pSQManager<ScriptContext::UI>->PushString(sqvm, version.c_str(), -1);
+		return SQRESULT_NOTNULL;
+	}
 }

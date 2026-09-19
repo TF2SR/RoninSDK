@@ -22,6 +22,8 @@ set(CURL_STATICLIB ON)
 set(BUILD_CURL_EXE OFF)
 set(CURL_DISABLE_INSTALL ON)
 set(USE_LIBIDN2 OFF)
+set(CURL_USE_SCHANNEL ON)
+set(ENABLE_THREADED_RESOLVER ON)
 
 add_subdirectory("thirdparty/detours")
 

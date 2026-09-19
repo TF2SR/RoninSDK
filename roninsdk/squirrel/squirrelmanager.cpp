@@ -254,6 +254,9 @@ void SquirrelManager<context>::SQVMCreated(CSquirrelVM* sqvm)
 	}
 	else if (context == ScriptContext::UI)
 	{
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "Ronin_CheckForUpdates", "void", "", &UI::CheckForUpdates);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "Ronin_GetUpdateState", "string", "", &UI::GetUpdateState);
+		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "Ronin_GetLatestVersion", "string", "", &UI::GetLatestVersion);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "SaveFile", "void", "string path, string contents", &Script_SaveFile);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "LoadFile", "void", "string path", &Script_LoadFile);
 		g_pSQManager<ScriptContext::UI>->RegisterFunction(sqvm, "DeleteFile", "void", "string path", &Script_DeleteFile);
