@@ -16,6 +16,7 @@ include_directories(. thirdparty)
 
 add_subdirectory("roninlauncher")
 add_subdirectory("roninsdk")
+add_subdirectory("roninshim")
 
 set(HTTP_ONLY ON)
 set(CURL_STATICLIB ON)
@@ -51,21 +52,10 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-    shim
-    GIT_REPOSITORY https://codeberg.org/Jan200101/ns-ronin-shim.git
-    GIT_TAG d2a5247975ac238ca5a18fb7b0f4f1bba4c303bd
-)
-
-FetchContent_Declare(
     minhook
     GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
     GIT_TAG 0f25a2449b3cf878bcbdbf91b693c38149ecf029
     FIND_PACKAGE_ARGS
 )
 
-FetchContent_MakeAvailable(curl json spdlog minhook wsock_proxy shim)
-
-set_target_properties(
-    shim
-    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ronin
-)
+FetchContent_MakeAvailable(curl json spdlog minhook wsock_proxy)
